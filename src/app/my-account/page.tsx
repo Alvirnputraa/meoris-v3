@@ -1347,7 +1347,7 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
 
                           {/* Column 2 */}
                           <div className="space-y-3.5">
-                            {/* Provinsi - Without Icon */}
+                            {/* Provinsi - Enhanced Dropdown */}
                             <div className="group">
                               <label className="block font-belleza text-xs font-semibold text-gray-700 mb-1.5">
                                 Provinsi
@@ -1356,29 +1356,45 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                 <select
                                   value={selectedProvinceId}
                                   onChange={handleProvinceSelect}
-                                  className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300 appearance-none cursor-pointer"
+                                  className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-10 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 focus:shadow-lg transition-all duration-300 hover:border-gray-300 hover:shadow-md appearance-none cursor-pointer"
+                                  style={{
+                                    backgroundImage: 'none'
+                                  }}
                                 >
-                                  <option value="">
-                                    {provinceLoading ? 'Memuat provinsi...' : 'Pilih provinsi'}
+                                  <option value="" className="text-gray-500">
+                                    {provinceLoading ? '⏳ Memuat provinsi...' : '🌏 Pilih provinsi'}
                                   </option>
                                   {provinceOptions.map((province) => (
-                                    <option key={province.id} value={province.id}>
+                                    <option key={province.id} value={province.id} className="text-black py-2">
                                       {province.name}
                                     </option>
                                   ))}
                                 </select>
+                                {/* Custom Arrow Icon */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
-                                    <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
-                                  </svg>
+                                  {provinceLoading ? (
+                                    <svg className="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                  ) : (
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200">
+                                      <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                  )}
                                 </div>
                               </div>
                               {provinceError ? (
-                                <p className="mt-1 text-xs text-red-600">{provinceError}</p>
+                                <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1 animate-shake">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                                  </svg>
+                                  {provinceError}
+                                </p>
                               ) : null}
                             </div>
 
-                            {/* Kelurahan - Without Icon */}
+                            {/* Kelurahan - Enhanced Dropdown */}
                             <div className="group">
                               <label className="block font-belleza text-xs font-semibold text-gray-700 mb-1.5">
                                 Kelurahan/Desa
@@ -1388,31 +1404,47 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                   value={selectedVillageId}
                                   onChange={handleVillageSelect}
                                   disabled={!selectedDistrictId || villageLoading || villageOptions.length === 0}
-                                  className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed appearance-none cursor-pointer"
+                                  className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-10 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 focus:shadow-lg transition-all duration-300 hover:border-gray-300 hover:shadow-md disabled:bg-gradient-to-br disabled:from-gray-50 disabled:to-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 appearance-none cursor-pointer"
+                                  style={{
+                                    backgroundImage: 'none'
+                                  }}
                                 >
-                                  <option value="">
+                                  <option value="" className="text-gray-500">
                                     {!selectedDistrictId
-                                      ? 'Pilih kecamatan terlebih dahulu'
+                                      ? '🔒 Pilih kecamatan terlebih dahulu'
                                       : villageLoading
-                                        ? 'Memuat kelurahan/desa...'
+                                        ? '⏳ Memuat kelurahan/desa...'
                                         : villageOptions.length === 0
-                                          ? 'Data tidak tersedia'
-                                          : 'Pilih kelurahan/desa'}
+                                          ? '❌ Data tidak tersedia'
+                                          : '📍 Pilih kelurahan/desa'}
                                   </option>
                                   {villageOptions.map((village) => (
-                                    <option key={village.id} value={village.id}>
+                                    <option key={village.id} value={village.id} className="text-black py-2">
                                       {village.name}
                                     </option>
                                   ))}
                                 </select>
+                                {/* Custom Arrow Icon */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
-                                    <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
-                                  </svg>
+                                  {villageLoading ? (
+                                    <svg className="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                  ) : (
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200">
+                                      <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                  )}
                                 </div>
                               </div>
                               {villageError ? (
-                                <p className="mt-1 text-xs text-red-600">{villageError}</p>
+                                <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1 animate-shake">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                                  </svg>
+                                  {villageError}
+                                </p>
                               ) : null}
                             </div>
 
