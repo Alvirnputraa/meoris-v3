@@ -1,0 +1,286 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import Script from "next/script";
+import LottiePlayer from "@/components/LottiePlayer";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
+import { useCart } from "@/lib/useCart";
+import { useFavorites } from "@/lib/useFavorites";
+import { keranjangDb, produkDb } from "@/lib/database";
+
+function PengembalianHeaderPage() {
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  const [mounted, setMounted] = useState(false);
+  const [splash, setSplash] = useState(true);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFavOpen, setIsFavOpen] = useState(false);
+  const [userMenuOpenDesktop, setUserMenuOpenDesktop] = useState(false);
+  const [userMenuOpenMobile, setUserMenuOpenMobile] = useState(false);
+  const [selectedFavorites, setSelectedFavorites] = useState<Set<string>>(new Set());
+  const [removingId, setRemovingId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const { items: cartItems, count: cartCount, loading: cartLoading, refresh } = useCart();
+  const { favorites, loading: favoritesLoading, toggleFavorite, count: favoritesCount } = useFavorites();
+  const [viewItems, setViewItems] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.replace("/login");
+    }
+  }, [isLoading, user, router]);
+
+  useEffect(() => {
+    setMounted(true);
+    const t = setTimeout(() => setSplash(false), 800);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    setViewItems(cartItems || []);
+  }, [cartItems]);
+
+  useEffect(() => {
+    if (isCartOpen && user) {
+      refresh();
+    }
+  }, [isCartOpen, user, refresh]);
+
+  const handleFavoriteCheckbox = (favoriteId: string, checked: boolean) => {
+    setSelectedFavorites(prev => {
+      const ns = new Set(prev);
+      if (checked) ns.add(favoriteId); else ns.delete(favoriteId);
+      return ns;
+    });
+  };
+
+  const handleCloseFavSidebar = () => {
+    setIsFavOpen(false);
+    setSelectedFavorites(new Set());
+  };
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
+    setSearchLoading(true);
+    setHasSearched(true);
+    try {
+      const results = await produkDb.search(searchQuery.trim());
+      setSearchResults(results || []);
+    } catch (error) {
+      console.error("Error searching products:", error);
+      setSearchResults([]);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
+  const handleCloseSearchSidebar = () => {
+    setIsSearchOpen(false);
+    setSearchQuery("");
+    setSearchResults([]);
+    setHasSearched(false);
+  };
+
+  const handleRemoveCartItem = async (itemId: string) => {
+    try {
+      setRemovingId(itemId);
+      setViewItems(items => items.filter((it: any) => it.id !== itemId));
+      await keranjangDb.removeItem(itemId);
+    } catch (error) {
+      console.error("Gagal menghapus item keranjang", error);
+    } finally {
+      setRemovingId(null);
+    }
+  };
+
+  if (!mounted || isLoading || !user) {
+    return null;
+  }
+
+  return (
+    <main>
+      {/* Sidebar */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-[70]">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setIsSidebarOpen(false)} aria-hidden="true" />
+          <aside className="absolute left-0 top-0 h-full w-80 max-w-[85%] bg-white shadow-2xl p-6">
+            <div className="mt-6 md:mt-8 flex items-center justify-between">
+              <span className="font-heading text-3xl md:text-4xl font-bold text-black">MEORIS</span>
+              <button type="button" aria-label="Tutup menu" className="p-2 rounded hover:opacity-80 text-black cursor-pointer" onClick={() => setIsSidebarOpen(false)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+            </div>
+            <nav className="mt-10 md:mt-12">
+              <ul className="space-y-2 font-body text-gray-800">
+                <li>
+                  <Link href="/home" onClick={() => setIsSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 text-black">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-gray-100 text-gray-700 shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 10.5l9-7 9 7V20a2 2 0 0 1-2 2h-5v-6h-4v6H5a2 2 0 0 1-2-2v-9.5z" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <span className="font-heading text-base flex-1">Beranda</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="shrink-0">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/my-account" onClick={() => setIsSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 text-black">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-gray-100 text-gray-700 shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-9 9a9 9 0 1118 0H3z" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <span className="font-heading text-base flex-1">Informasi Akun</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="shrink-0">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/produk/pesanan" onClick={() => setIsSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 text-black">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-gray-100 text-gray-700 shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 2h12a1 1 0 011 1v18l-7-3-7 3V3a1 1 0 011-1z" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <span className="font-heading text-base flex-1">History Pesanan</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="shrink-0">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/histori/transaksi" onClick={() => setIsSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 text-black">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-gray-100 text-gray-700 shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h16v2H4v-2zm0 4h10v2H4v-2z" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <span className="font-heading text-base flex-1">Histori Transaksi</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="shrink-0">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/permintaan-returns" onClick={() => setIsSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 text-black">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded bg-gray-100 text-gray-700 shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h16v2H4v-2zm0 4h10v2H4v-2z" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <span className="font-heading text-base flex-1">Permintaan Returns</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="shrink-0">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+            <div className="mt-10 space-y-8">
+              <div>
+                <h3 className="font-heading text-lg text-black">Cari Produk Favorit</h3>
+                <p className="text-sm text-gray-600 mt-1">Gunakan fitur pencarian untuk menemukan produk terbaru kami.</p>
+                <button onClick={() => setIsSearchOpen(true)} className="mt-3 inline-flex items-center justify-center rounded-none border border-black bg-black text-white px-4 py-2 text-sm hover:opacity-90 transition">
+                  Cari Sekarang
+                </button>
+              </div>
+              <div>
+                <h3 className="font-heading text-lg text-black">Butuh Bantuan?</h3>
+                <p className="text-sm text-gray-600 mt-1">Hubungi tim layanan pelanggan kami melalui email atau WhatsApp.</p>
+                <div className="mt-2 text-sm text-gray-700">
+                  <div>Email: support@meoris.com</div>
+                  <div>WhatsApp: +62 896-9597-1729</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* Search Sidebar */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-[70]">
+          <div className="absolute inset-0 bg-black/40" onClick={handleCloseSearchSidebar} aria-hidden="true" />
+          <aside className="absolute right-0 top-0 h-full w-80 md:w-96 max-w-[92%] bg-white shadow-2xl p-6 flex flex-col">
+            <button type="button" aria-label="Tutup pencarian" className="absolute -left-12 top-6 w-14 h-10 bg-white rounded-l-lg rounded-r-none text-black flex items-center justify-center" onClick={handleCloseSearchSidebar}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <div className="flex items-center justify-between">
+              <span className="font-heading text-xl md:text-2xl text-black">Cari Produk</span>
+            </div>
+            <div className="mt-6">
+              <input
+                type="text"
+                placeholder="Cari produk"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setHasSearched(false);
+                  setSearchResults([]);
+                }}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                className="w-full rounded-none border border-gray-300 px-4 py-3 text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black/40"
+              />
+              <div className="mt-3">
+                <button
+                  onClick={handleSearch}
+                  disabled={searchLoading || !searchQuery.trim()}
+                  className="w-full rounded-none bg-black text-white px-4 py-2 font-body text-sm hover:opacity-90 transition disabled:opacity-50"
+                >
+                  {searchLoading ? 'Mencari...' : 'Cari'}
+                </button>
+              </div>
+            </div>
+            <div className="mt-6">
+              <p className="font-heading text-black">Hasil pencarian</p>
+            </div>
+            <div className="mt-4 flex-1 overflow-y-auto space-y-5">
+              {searchLoading ? (
+                <p className="text-sm text-gray-600">Mencari produk...</p>
+              ) : hasSearched ? (
+                searchResults.length > 0 ? (
+                  searchResults.map((product: any) => (
+                    <Link key={product.id} href={`/produk/${product.id}/detail`} className="flex items-center gap-4 hover:bg-gray-50 p-2 rounded cursor-pointer">
+                      <div className="relative w-16 h-16 overflow-hidden border border-gray-200 bg-gray-100 shrink-0">
+                        {product.photo1 ? (
+                          <Image src={product.photo1} alt={product.nama_produk} fill sizes="64px" className="object-cover" />
+                        ) : (
+                          <Image src="/images/test1p.png" alt="Produk" fill sizes="64px" className="object-cover" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-body text-gray-900 truncate">{product.nama_produk}</p>
+                        <p className="font-body text-sm text-gray-700 mt-1">
+                          Rp {Number(product.harga || 0).toLocaleString("id-ID")}
+                        </p>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-600">Tidak ada hasil untuk "{searchQuery}"</p>
+                )
+              ) : (
+                <p className="text-sm text-gray-600">Masukkan kata kunci untuk mencari produk</p>
+              )}
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* Cart Sidebar */}
+      {isCartOpen && (
+        <div className="fixed inset-0 z-[70]">

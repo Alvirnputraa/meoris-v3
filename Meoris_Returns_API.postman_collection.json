@@ -1,0 +1,200 @@
+{
+  "info": {
+    "name": "Meoris Returns API",
+    "description": "API Collection for Meoris Sandal Returns Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Approve Return & Generate JNT Resi",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"return_id\": \"PASTE_RETURN_ID_HERE\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/returns/approve",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "returns",
+            "approve"
+          ]
+        },
+        "description": "Approve return request dan auto-generate resi JNT via Biteship.\n\n**Flow:**\n1. Fetch return + order + user data\n2. Generate JNT shipment (origin=user, destination=toko)\n3. Update status to 'approved' + save waybill\n\n**Required:**\n- return_id: Valid UUID dari tabel returns\n- User address harus lengkap (alamat + kode pos)\n\n**Response:**\n- waybill: Nomor resi JNT\n- tracking_url: URL tracking JNT\n- pickup_address: Alamat user\n- destination: Alamat toko"
+      },
+      "response": [
+        {
+          "name": "Success - Return Approved",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"return_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/returns/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "returns",
+                "approve"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"success\": true,\n  \"message\": \"Return berhasil di-approve dan resi JNT telah digenerate\",\n  \"data\": {\n    \"return_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"status\": \"approved\",\n    \"waybill\": \"JNT1234567890\",\n    \"tracking_url\": \"https://www.jnt.com/tracking?waybill=JNT1234567890\",\n    \"courier\": \"J&T Express\",\n    \"pickup_address\": \"Jl. Merdeka No 123, Kec. Bandung Wetan, Kota Bandung, Jawa Barat\",\n    \"destination\": \"Meoris Warehouse, Tasikmalaya\"\n  }\n}"
+        },
+        {
+          "name": "Error - Return Not Found",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"return_id\": \"invalid-id-123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/returns/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "returns",
+                "approve"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"success\": false,\n  \"message\": \"Return request not found\"\n}"
+        },
+        {
+          "name": "Error - Already Approved",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"return_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/returns/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "returns",
+                "approve"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"success\": false,\n  \"message\": \"Return already approved\",\n  \"waybill\": \"JNT1234567890\"\n}"
+        },
+        {
+          "name": "Error - Incomplete Address",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"return_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/returns/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "returns",
+                "approve"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"success\": false,\n  \"message\": \"Alamat user tidak lengkap. Pastikan alamat dan kode pos tersedia.\"\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

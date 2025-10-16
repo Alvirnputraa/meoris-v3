@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Default page background */
+  background: #ffffff;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* Split background for section 1 (50% gray, 50% white) */
+.split-bg {
+  background: linear-gradient(
+    to right,
+    #f3f4f6 0%,
+    #f3f4f6 50%,
+    #ffffff 50%,
+    #ffffff 100%
+  );
+}
+
+/* On small screens, keep split horizontal: left gray, right white */
+@media (max-width: 767px) {
+  .split-bg {
+    background: linear-gradient(
+      to right,
+      #f3f4f6 0%,
+      #f3f4f6 50%,
+      #ffffff 50%,
+      #ffffff 100%
+    );
+  }
+}
+
+/* Utility classes to use local fonts loaded via next/font/local */
+.font-heading {
+  font-family: var(--font-heading), var(--font-geist-sans), system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), var(--font-geist-sans), system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/* Cormorant Garamond custom font class */
+.font-cormorant {
+  font-family: var(--font-heading), serif;
+}
+
+/* Belleza custom font class */
+.font-belleza {
+  font-family: var(--font-body), sans-serif;
+}
+
+/* Animated line above heading: reveals from right to left in 4s */
+@keyframes reveal-right-to-left {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.line-reveal {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation: reveal-right-to-left 3s ease forwards;
+}
+
+/* Animated line from left to right in 4s */
+@keyframes reveal-left-to-right {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.line-reveal-ltr {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: reveal-left-to-right 3s ease forwards;
+}
+
+/* Switch reveal animations for text and images */
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes softFadeIn {
+  0% { opacity: 0; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Apply to heading spans, paragraph, and button on switch */
+.reveal-switch {
+  animation: fadeSlideUp 700ms cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Apply to images/blocks for soft crossfade */
+.fade-switch {
+  animation: softFadeIn 700ms ease both;
+}
+
+/* Stagger helpers */
+.reveal-delay-1 { animation-delay: 120ms; }
+.reveal-delay-2 { animation-delay: 240ms; }
+.reveal-delay-3 { animation-delay: 360ms; }
+
+/* Exit animation: slide up and fade out */
+@keyframes fadeSlideUpOut {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-12px) scale(0.98); }
+}
+
+.exit-switch {
+  animation: fadeSlideUpOut 500ms cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Vertical slide viewport/track */
+.slide-viewport {
+  overflow: hidden;
+  position: relative;
+}
+.slide-track {
+  display: flex;
+  flex-direction: column;
+  transition: transform 700ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+  transform: translateY(0);
+}
+.slide-track.slide-up {
+  transform: translateY(-50%);
+}
+
+/* Horizontal slide viewport/track (for Section 4 carousel) */
+.hslide-viewport {
+  overflow: hidden;
+  position: relative;
+}
+.hslide-track {
+  display: flex;
+  flex-direction: row;
+  transition: transform 700ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+  transform: translateX(0);
+}
+
+/* Scroll reveal for section cards */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1500ms cubic-bezier(.22,1,.36,1), transform 1500ms cubic-bezier(.22,1,.36,1);
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Split background with 20% gray on left (for Section 3) */
+.split-left-20 {
+  /* Mobile default: no gray strip */
+  background: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .split-left-20 {
+    background: linear-gradient(
+      to right,
+      #f3f4f6 0%,
+      #f3f4f6 20%,
+      #ffffff 20%,
+      #ffffff 100%
+    );
+  }
+}
+
+/* Section 3: show sidebar/layout only on very wide screens to keep grid centered */
+.section3-layout { display: block; }
+@media (min-width: 1800px) {
+  .section3-layout {
+    display: grid;
+    grid-template-columns: 0.2fr 0.8fr;
+    column-gap: 2rem;
+    align-items: start;
+  }
+}
+.section3-sidebar { display: none; }
+@media (min-width: 1800px) {
+  .section3-sidebar { display: block; }
+}
+
+/* Hover effect for homepage poster image */
+.poster-hover {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 400ms ease;
+}
+.poster-hover:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+.poster-hover::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -40%;
+  width: 40%;
+  height: 140%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 70%);
+  transform: translateX(-120%) rotate(12deg);
+  pointer-events: none;
+  transition: transform 900ms cubic-bezier(.22,1,.36,1);
+}
+.poster-hover:hover::after {
+  transform: translateX(280%) rotate(12deg);
+}
+.poster-img {
+  transition: transform 700ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+}
+.poster-hover:hover .poster-img {
+  transform: scale(1.045) rotate(0.2deg);
+}
+
+/* Hover effect for the four cards next to poster */
+.card-hover {
+  position: relative;
+  overflow: hidden;
+  transition: transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms ease;
+  will-change: transform;
+}
+.card-hover:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+}
+.card-hover::after {
+  content: "";
+  position: absolute;
+  top: -25%;
+  left: -40%;
+  width: 40%;
+  height: 150%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 70%);
+  transform: translateX(-120%) rotate(12deg);
+  pointer-events: none;
+  transition: transform 900ms cubic-bezier(.22,1,.36,1);
+}
+.card-hover:hover::after {
+  transform: translateX(280%) rotate(12deg);
+}
+
+/* Dedicated hover sheen for product cards in Koleksi Utama */
+.product-hover {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 400ms ease;
+}
+.product-hover:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+.product-hover::after {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -80%;
+  width: 28%;
+  height: 160%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transform: translateX(-280%) rotate(12deg);
+  pointer-events: none;
+}
+.product-hover:hover::after {
+  /* Trigger a one-off sweep animation; no lingering state */
+  animation: product-sheen 900ms cubic-bezier(.22,1,.36,1);
+}
+@keyframes product-sheen {
+  0%   { opacity: 0; transform: translateX(-280%) rotate(12deg); }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(480%) rotate(12deg); }
+}
+/* Reuse the same slight zoom/tilt for product images */
+.product-hover:hover .poster-img {
+  transform: scale(1.045) rotate(0.2deg);
+}
+
+/* Zoom-only effect for product cards (no sheen) */
+.product-zoom {
+  position: relative;
+  overflow: hidden;
+}
+.product-zoom:hover .poster-img {
+  transform: scale(1.045) rotate(0.2deg);
+}
+
+/* Notification slide-in animation */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Animated border on hover for product cards */
+.hover-border-animate {
+  position: relative;
+  overflow: visible;
+}
+
+.hover-border-animate::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    transparent,
+    #000,
+    transparent,
+    transparent
+  );
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.hover-border-animate:hover::before {
+  opacity: 0.4;
+  animation: border-spin 2s linear infinite;
+}
+
+@keyframes border-spin {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

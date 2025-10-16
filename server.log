@@ -1,0 +1,50 @@
+yarn run v1.22.22
+$ next dev
+   ▲ Next.js 15.5.3
+   - Local:        http://localhost:3000
+   - Network:      http://10.219.4.60:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1329ms
+ ○ Compiling / ...
+ ✓ Compiled / in 7.7s (831 modules)
+SB URL present? true Key present? true
+ GET / 200 in 8292ms
+ GET / 200 in 600ms
+ GET / 200 in 193ms
+ ○ Compiling /produk ...
+ ✓ Compiled /produk in 1383ms (833 modules)
+SB URL present? true Key present? true
+ GET /produk 200 in 1712ms
+ GET /produk 200 in 103ms
+ GET / 200 in 114ms
+ GET / 200 in 84ms
+ GET / 200 in 79ms
+ GET / 200 in 81ms
+ GET / 200 in 85ms
+ GET /?x_request_source=preview 200 in 82ms
+ ⚠ Cross origin request detected from sandal-store-1.preview.emergentagent.com to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ ○ Compiling /login ...
+ ✓ Compiled /login in 658ms (826 modules)
+SB URL present? true Key present? true
+ GET /login 200 in 1180ms
+ GET /login 200 in 92ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/app/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/server/app/page.js',
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /home in 3.7s (1166 modules)
+ ✓ Compiled in 307ms (478 modules)
+ GET /home 200 in 1491ms
+ HEAD / 500 in 4702ms
+ GET /home 200 in 24ms
+ GET / 200 in 28ms
+error Command failed with signal "SIGTERM".
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+[?25h
