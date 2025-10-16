@@ -1411,12 +1411,12 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                 >
                                   <option value="" className="text-gray-500">
                                     {!selectedDistrictId
-                                      ? '🔒 Pilih kecamatan terlebih dahulu'
+                                      ? 'Pilih kecamatan terlebih dahulu'
                                       : villageLoading
-                                        ? '⏳ Memuat kelurahan/desa...'
+                                        ? 'Memuat kelurahan/desa...'
                                         : villageOptions.length === 0
-                                          ? '❌ Data tidak tersedia'
-                                          : '📍 Pilih kelurahan/desa'}
+                                          ? 'Data tidak tersedia'
+                                          : 'Pilih kelurahan/desa'}
                                   </option>
                                   {villageOptions.map((village) => (
                                     <option key={village.id} value={village.id} className="text-black py-2">
