@@ -1362,7 +1362,7 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                   }}
                                 >
                                   <option value="" className="text-gray-500">
-                                    {provinceLoading ? '⏳ Memuat provinsi...' : '🌏 Pilih provinsi'}
+                                    {provinceLoading ? 'Memuat provinsi...' : 'Pilih provinsi'}
                                   </option>
                                   {provinceOptions.map((province) => (
                                     <option key={province.id} value={province.id} className="text-black py-2">
