@@ -1253,12 +1253,12 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                 >
                                   <option value="" className="text-gray-500">
                                     {!selectedProvinceId
-                                      ? '🔒 Pilih provinsi terlebih dahulu'
+                                      ? 'Pilih provinsi terlebih dahulu'
                                       : regencyLoading
-                                        ? '⏳ Memuat kota/kabupaten...'
+                                        ? 'Memuat kota/kabupaten...'
                                         : regencyOptions.length === 0
-                                          ? '❌ Data tidak tersedia'
-                                          : '📍 Pilih kota/kabupaten'}
+                                          ? 'Data tidak tersedia'
+                                          : 'Pilih kota/kabupaten'}
                                   </option>
                                   {regencyOptions.map((regency) => (
                                     <option key={regency.id} value={regency.id} className="text-black py-2">
