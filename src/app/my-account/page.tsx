@@ -1447,53 +1447,53 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                       </div>
                     </div>
 
-                    {/* Right: Preview card - Enhanced */}
+                    {/* Right: Preview card - More Compact */}
                     <aside className="hidden lg:block sticky top-24">
-                      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        {/* Card Header */}
-                        <div className="bg-gradient-to-r from-gray-900 to-black p-5 text-white">
+                      <div className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+                        {/* Card Header - Compact */}
+                        <div className="bg-gradient-to-r from-gray-900 to-black p-3.5 text-white">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <div className="w-8 h-8 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/>
                                 </svg>
                               </div>
                               <div>
-                                <h3 className="font-cormorant text-lg font-bold">Pratinjau Alamat</h3>
-                                <p className="text-xs text-gray-300 mt-0.5">Live preview</p>
+                                <h3 className="font-cormorant text-base font-bold">Pratinjau Alamat</h3>
+                                <p className="text-[10px] text-gray-300">Live preview</p>
                               </div>
                             </div>
-                            <span className="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-white/20 backdrop-blur-sm text-white">
+                            <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-semibold rounded-full bg-white/20 backdrop-blur-sm text-white">
                               Utama
                             </span>
                           </div>
                         </div>
 
-                        {/* Card Body */}
-                        <div className="p-6">
-                          <div className="space-y-4">
+                        {/* Card Body - Compact */}
+                        <div className="p-4">
+                          <div className="space-y-2.5">
                             {/* Name Section */}
                             {shipNama && (
-                              <div className="flex items-start gap-3 p-3 rounded-lg bg-white border border-gray-200">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
+                              <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-white border border-gray-200">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
                                   <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-9 9a9 9 0 1118 0H3z" fill="currentColor"/>
                                 </svg>
                                 <div className="min-w-0 flex-1">
-                                  <p className="text-xs text-gray-500 font-medium">Penerima</p>
-                                  <p className="font-belleza font-semibold text-black mt-0.5">{shipNama}</p>
+                                  <p className="text-[10px] text-gray-500 font-medium">Penerima</p>
+                                  <p className="font-belleza font-semibold text-black mt-0.5 text-sm">{shipNama}</p>
                                 </div>
                               </div>
                             )}
 
                             {/* Phone Section */}
                             {shipPhone && (
-                              <div className="flex items-start gap-3 p-3 rounded-lg bg-white border border-gray-200">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
+                              <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-white border border-gray-200">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
                                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 11.19 19a19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.16a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z" fill="currentColor"/>
                                 </svg>
                                 <div className="min-w-0 flex-1">
-                                  <p className="text-xs text-gray-500 font-medium">Telepon</p>
+                                  <p className="text-[10px] text-gray-500 font-medium">Telepon</p>
                                   <p className="font-belleza text-sm text-black mt-0.5">{shipPhone}</p>
                                 </div>
                               </div>
@@ -1501,14 +1501,14 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
 
                             {/* Address Section */}
                             {(shipStreet || shipKelurahan || shipKecamatan || shipKabupaten || shipProvinsi || shipPostal) && (
-                              <div className="flex items-start gap-3 p-3 rounded-lg bg-white border border-gray-200">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
+                              <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-white border border-gray-200">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
                                   <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/>
                                 </svg>
                                 <div className="min-w-0 flex-1">
-                                  <p className="text-xs text-gray-500 font-medium mb-1.5">Alamat Lengkap</p>
-                                  <div className="font-belleza text-sm text-gray-700 space-y-1">
-                                    {shipStreet && <p className="text-black">{shipStreet}</p>}
+                                  <p className="text-[10px] text-gray-500 font-medium mb-1">Alamat Lengkap</p>
+                                  <div className="font-belleza text-xs text-gray-700 space-y-0.5">
+                                    {shipStreet && <p className="text-black text-sm">{shipStreet}</p>}
                                     {shipKelurahan && <p>Kel. {shipKelurahan}</p>}
                                     {shipKecamatan && <p>Kec. {shipKecamatan}</p>}
                                     {shipKabupaten && <p>{shipKabupaten}</p>}
@@ -1522,23 +1522,23 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
 
                             {/* Empty State */}
                             {!shipNama && !shipPhone && !shipStreet && !shipKabupaten && (
-                              <div className="text-center py-8">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto text-gray-300 mb-3">
+                              <div className="text-center py-6">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto text-gray-300 mb-2">
                                   <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/>
                                 </svg>
-                                <p className="text-sm text-gray-500 font-belleza">Mulai isi formulir untuk melihat preview</p>
+                                <p className="text-xs text-gray-500 font-belleza">Mulai isi formulir untuk melihat preview</p>
                               </div>
                             )}
                           </div>
 
-                          {/* Info Footer */}
-                          <div className="mt-6 p-4 rounded-lg bg-blue-50 border border-blue-100">
+                          {/* Info Footer - Compact */}
+                          <div className="mt-4 p-3 rounded-lg bg-blue-50 border border-blue-100">
                             <div className="flex items-start gap-2">
-                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600 flex-shrink-0 mt-0.5">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600 flex-shrink-0 mt-0.5">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
                               </svg>
-                              <p className="text-xs text-blue-800 font-belleza leading-relaxed">
-                                Pastikan semua data sudah benar sebelum menyimpan. Alamat ini akan digunakan untuk pengiriman pesanan Anda.
+                              <p className="text-[11px] text-blue-800 font-belleza leading-relaxed">
+                                Pastikan data sudah benar. Alamat ini akan digunakan untuk pengiriman pesanan Anda.
                               </p>
                             </div>
                           </div>
