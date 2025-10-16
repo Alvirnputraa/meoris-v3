@@ -1159,202 +1159,446 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
             <div>
               {tab === 'alamat' ? (
                 <>
-                  <h2 className="font-cormorant text-xl md:text-2xl text-black">Alamat</h2>
-                  <div className="mt-2 text-sm text-gray-600 font-belleza">Kelola alamat pengiriman utama Anda.</div>
-                  <div className="mt-5 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
-                    {/* Left: Address form */}
-                    <div className="bg-white border border-gray-200 shadow-sm p-5 md:p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="space-y-4">
-                        {/* Nama Penerima */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Nama Penerima</label>
-                          <div className="relative">
-                            <input type="text" value={shipNama} onChange={(e)=>setShipNama(e.target.value)} placeholder="Nama Penerima" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black/40" />
-                          </div>
+                  {/* Modern Header with Gradient */}
+                  <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 md:p-8 shadow-2xl mb-8">
+                    <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5"></div>
+                    <div className="relative z-10">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-12 h-12 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                            <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/>
+                          </svg>
                         </div>
-                        {/* Nomor HP */}
                         <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Nomor HP</label>
-                          <div className="relative">
-                            <input type="tel" value={shipPhone} onChange={(e)=>setShipPhone(e.target.value)} placeholder="Nomor HP" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black/40" />
-                          </div>
+                          <h2 className="font-cormorant text-2xl md:text-3xl text-white font-bold">Alamat Pengiriman</h2>
+                          <p className="text-sm text-gray-300 font-belleza mt-0.5">Kelola alamat pengiriman utama Anda dengan mudah</p>
                         </div>
-                        {/* Nama Jalan */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Nama Jalan, nomor rumah, kel/kec</label>
-                          <div className="relative">
-                            <input type="text" value={shipStreet} onChange={(e)=>setShipStreet(e.target.value)} placeholder="Nama Jalan, nomor rumah, kel/kec" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black/40" />
-                          </div>
-                        </div>
-                        {/* Kota */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Kota/Kabupaten</label>
-                          <div className="relative">
-                            <select
-                              value={selectedRegencyId}
-                              onChange={handleRegencySelect}
-                              disabled={!selectedProvinceId || regencyLoading || regencyOptions.length === 0}
-                              className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-black/40 disabled:bg-gray-100 disabled:text-gray-500"
-                            >
-                              <option value="">
-                                {!selectedProvinceId
-                                  ? 'Pilih provinsi terlebih dahulu'
-                                  : regencyLoading
-                                    ? 'Memuat kota/kabupaten...'
-                                    : regencyOptions.length === 0
-                                      ? 'Data kota/kabupaten belum tersedia'
-                                      : 'Pilih kota/kabupaten'}
-                              </option>
-                              {regencyOptions.map((regency) => (
-                                <option key={regency.id} value={regency.id}>
-                                  {regency.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          {regencyError ? (
-                            <p className="mt-1 text-[11px] text-red-600">{regencyError}</p>
-                          ) : null}
-                        </div>
-                        {/* Kecamatan */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Kecamatan</label>
-                          <div className="relative">
-                            <select
-                              value={selectedDistrictId}
-                              onChange={handleDistrictSelect}
-                              disabled={!selectedRegencyId || districtLoading || districtOptions.length === 0}
-                              className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-black/40 disabled:bg-gray-100 disabled:text-gray-500"
-                            >
-                              <option value="">
-                                {!selectedRegencyId
-                                  ? 'Pilih kota/kabupaten terlebih dahulu'
-                                  : districtLoading
-                                    ? 'Memuat kecamatan...'
-                                    : districtOptions.length === 0
-                                      ? 'Data kecamatan belum tersedia'
-                                      : 'Pilih kecamatan'}
-                              </option>
-                              {districtOptions.map((district) => (
-                                <option key={district.id} value={district.id}>
-                                  {district.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          {districtError ? (
-                            <p className="mt-1 text-[11px] text-red-600">{districtError}</p>
-                          ) : null}
-                        </div>
-                      </div>
-                      <div className="space-y-4">
-                        {/* Provinsi */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Provinsi</label>
-                          <div className="relative">
-                            <select
-                              value={selectedProvinceId}
-                              onChange={handleProvinceSelect}
-                              className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-black/40"
-                            >
-                              <option value="">
-                                {provinceLoading ? 'Memuat provinsi...' : 'Pilih provinsi'}
-                              </option>
-                              {provinceOptions.map((province) => (
-                                <option key={province.id} value={province.id}>
-                                  {province.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          {provinceError ? (
-                            <p className="mt-1 text-[11px] text-red-600">{provinceError}</p>
-                          ) : null}
-                        </div>
-                        {/* Kelurahan */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Kelurahan/Desa</label>
-                          <div className="relative">
-                            <select
-                              value={selectedVillageId}
-                              onChange={handleVillageSelect}
-                              disabled={!selectedDistrictId || villageLoading || villageOptions.length === 0}
-                              className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-black/40 disabled:bg-gray-100 disabled:text-gray-500"
-                            >
-                              <option value="">
-                                {!selectedDistrictId
-                                  ? 'Pilih kecamatan terlebih dahulu'
-                                  : villageLoading
-                                    ? 'Memuat kelurahan/desa...'
-                                    : villageOptions.length === 0
-                                      ? 'Data kelurahan/desa belum tersedia'
-                                      : 'Pilih kelurahan/desa'}
-                              </option>
-                              {villageOptions.map((village) => (
-                                <option key={village.id} value={village.id}>
-                                  {village.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          {villageError ? (
-                            <p className="mt-1 text-[11px] text-red-600">{villageError}</p>
-                          ) : null}
-                        </div>
-                        {/* Postal code */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Postal Code</label>
-                          <div className="relative">
-                            <input
-                              type="text"
-                              value={shipPostal}
-                              onChange={(e) => {
-                                const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5)
-                                setShipPostal(value)
-                              }}
-                              placeholder="Masukkan kode pos"
-                              className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-black/40"
-                              inputMode="numeric"
-                              maxLength={5}
-                            />
-                          </div>
-                        </div>
-                        {/* Negara */}
-                        <div>
-                          <label className="block font-belleza text-xs text-gray-700 mb-1">Negara</label>
-                          <input type="text" value="Indonesia" readOnly aria-readonly="true" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-black bg-gray-50 focus:outline-none" />
-                        </div>
-                      </div>
-                      <div className="pt-3">
-                        <button onClick={handleSaveAddress} disabled={savingAddr} className="inline-flex items-center gap-2 rounded-none border border-black bg-black text-white px-4 py-2 text-sm hover:opacity-90 disabled:opacity-50">
-                          {savingAddr ? 'Menyimpan...' : 'Simpan Alamat'}
-                        </button>
                       </div>
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
+                    {/* Left: Address form with modern design */}
+                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                      {/* Form Header */}
+                      <div className="bg-gradient-to-r from-gray-50 to-white p-5 border-b border-gray-200">
+                        <div className="flex items-center gap-2">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-700">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor"/>
+                            <path d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
+                          </svg>
+                          <h3 className="font-cormorant text-lg font-semibold text-gray-900">Informasi Alamat</h3>
+                        </div>
+                      </div>
+
+                      <div className="p-6 md:p-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {/* Column 1 */}
+                          <div className="space-y-5">
+                            {/* Nama Penerima */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-9 9a9 9 0 1118 0H3z" fill="currentColor"/>
+                                </svg>
+                                Nama Penerima
+                              </label>
+                              <div className="relative">
+                                <input 
+                                  type="text" 
+                                  value={shipNama} 
+                                  onChange={(e)=>setShipNama(e.target.value)} 
+                                  placeholder="Masukkan nama penerima" 
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Nomor HP */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 11.19 19a19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.16a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z" fill="currentColor"/>
+                                </svg>
+                                Nomor HP
+                              </label>
+                              <div className="relative">
+                                <input 
+                                  type="tel" 
+                                  value={shipPhone} 
+                                  onChange={(e)=>setShipPhone(e.target.value)} 
+                                  placeholder="Contoh: 08123456789" 
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Nama Jalan */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9zm3-7h12v7H6V2z" fill="currentColor"/>
+                                </svg>
+                                Alamat Lengkap
+                              </label>
+                              <div className="relative">
+                                <textarea 
+                                  value={shipStreet} 
+                                  onChange={(e)=>setShipStreet(e.target.value)} 
+                                  placeholder="Nama jalan, nomor rumah, RT/RW" 
+                                  rows={3}
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300 resize-none"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Kota/Kabupaten */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M21 10h-6V4H9v6H3l9 9 9-9z" fill="currentColor"/>
+                                </svg>
+                                Kota/Kabupaten
+                              </label>
+                              <div className="relative">
+                                <select
+                                  value={selectedRegencyId}
+                                  onChange={handleRegencySelect}
+                                  disabled={!selectedProvinceId || regencyLoading || regencyOptions.length === 0}
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed appearance-none cursor-pointer"
+                                >
+                                  <option value="">
+                                    {!selectedProvinceId
+                                      ? 'Pilih provinsi terlebih dahulu'
+                                      : regencyLoading
+                                        ? 'Memuat kota/kabupaten...'
+                                        : regencyOptions.length === 0
+                                          ? 'Data tidak tersedia'
+                                          : 'Pilih kota/kabupaten'}
+                                  </option>
+                                  {regencyOptions.map((regency) => (
+                                    <option key={regency.id} value={regency.id}>
+                                      {regency.name}
+                                    </option>
+                                  ))}
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                                    <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              {regencyError ? (
+                                <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-4h-2V7h2v6z" fill="currentColor"/>
+                                  </svg>
+                                  {regencyError}
+                                </p>
+                              ) : null}
+                            </div>
+
+                            {/* Kecamatan */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" fill="currentColor"/>
+                                </svg>
+                                Kecamatan
+                              </label>
+                              <div className="relative">
+                                <select
+                                  value={selectedDistrictId}
+                                  onChange={handleDistrictSelect}
+                                  disabled={!selectedRegencyId || districtLoading || districtOptions.length === 0}
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed appearance-none cursor-pointer"
+                                >
+                                  <option value="">
+                                    {!selectedRegencyId
+                                      ? 'Pilih kota/kabupaten terlebih dahulu'
+                                      : districtLoading
+                                        ? 'Memuat kecamatan...'
+                                        : districtOptions.length === 0
+                                          ? 'Data tidak tersedia'
+                                          : 'Pilih kecamatan'}
+                                  </option>
+                                  {districtOptions.map((district) => (
+                                    <option key={district.id} value={district.id}>
+                                      {district.name}
+                                    </option>
+                                  ))}
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                                    <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              {districtError ? (
+                                <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-4h-2V7h2v6z" fill="currentColor"/>
+                                  </svg>
+                                  {districtError}
+                                </p>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          {/* Column 2 */}
+                          <div className="space-y-5">
+                            {/* Provinsi */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+                                </svg>
+                                Provinsi
+                              </label>
+                              <div className="relative">
+                                <select
+                                  value={selectedProvinceId}
+                                  onChange={handleProvinceSelect}
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300 appearance-none cursor-pointer"
+                                >
+                                  <option value="">
+                                    {provinceLoading ? 'Memuat provinsi...' : 'Pilih provinsi'}
+                                  </option>
+                                  {provinceOptions.map((province) => (
+                                    <option key={province.id} value={province.id}>
+                                      {province.name}
+                                    </option>
+                                  ))}
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                                    <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              {provinceError ? (
+                                <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-4h-2V7h2v6z" fill="currentColor"/>
+                                  </svg>
+                                  {provinceError}
+                                </p>
+                              ) : null}
+                            </div>
+
+                            {/* Kelurahan */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" fill="currentColor"/>
+                                </svg>
+                                Kelurahan/Desa
+                              </label>
+                              <div className="relative">
+                                <select
+                                  value={selectedVillageId}
+                                  onChange={handleVillageSelect}
+                                  disabled={!selectedDistrictId || villageLoading || villageOptions.length === 0}
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed appearance-none cursor-pointer"
+                                >
+                                  <option value="">
+                                    {!selectedDistrictId
+                                      ? 'Pilih kecamatan terlebih dahulu'
+                                      : villageLoading
+                                        ? 'Memuat kelurahan/desa...'
+                                        : villageOptions.length === 0
+                                          ? 'Data tidak tersedia'
+                                          : 'Pilih kelurahan/desa'}
+                                  </option>
+                                  {villageOptions.map((village) => (
+                                    <option key={village.id} value={village.id}>
+                                      {village.name}
+                                    </option>
+                                  ))}
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                                    <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              {villageError ? (
+                                <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-4h-2V7h2v6z" fill="currentColor"/>
+                                  </svg>
+                                  {villageError}
+                                </p>
+                              ) : null}
+                            </div>
+
+                            {/* Postal Code */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+                                </svg>
+                                Kode Pos
+                              </label>
+                              <div className="relative">
+                                <input
+                                  type="text"
+                                  value={shipPostal}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5)
+                                    setShipPostal(value)
+                                  }}
+                                  placeholder="Contoh: 12345"
+                                  className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300"
+                                  inputMode="numeric"
+                                  maxLength={5}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Negara */}
+                            <div className="group">
+                              <label className="flex items-center gap-2 font-belleza text-sm font-semibold text-gray-700 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/>
+                                </svg>
+                                Negara
+                              </label>
+                              <input 
+                                type="text" 
+                                value="Indonesia" 
+                                readOnly 
+                                aria-readonly="true" 
+                                className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 text-sm text-gray-600 bg-gray-50 focus:outline-none cursor-not-allowed" 
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Save Button - Modern */}
+                        <div className="mt-8 pt-6 border-t border-gray-200">
+                          <button 
+                            onClick={handleSaveAddress} 
+                            disabled={savingAddr} 
+                            className="group relative w-full md:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-gray-900 to-black text-white px-8 py-3.5 font-semibold text-sm hover:from-black hover:to-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-black/20"
+                          >
+                            {savingAddr ? (
+                              <>
+                                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Menyimpan...
+                              </>
+                            ) : (
+                              <>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform group-hover:scale-110">
+                                  <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" fill="currentColor"/>
+                                </svg>
+                                Simpan Alamat
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
                     </div>
 
-                    {/* Right: Preview card */}
-                    <aside className="hidden lg:block bg-white border border-gray-200 shadow-sm p-5 md:p-6">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-cormorant text-lg text-black">Pratinjau Alamat</h3>
-                          <p className="text-xs text-gray-600 mt-1">Pastikan data sudah benar sebelum menyimpan.</p>
+                    {/* Right: Preview card - Enhanced */}
+                    <aside className="hidden lg:block sticky top-24">
+                      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        {/* Card Header */}
+                        <div className="bg-gradient-to-r from-gray-900 to-black p-5 text-white">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/>
+                                </svg>
+                              </div>
+                              <div>
+                                <h3 className="font-cormorant text-lg font-bold">Pratinjau Alamat</h3>
+                                <p className="text-xs text-gray-300 mt-0.5">Live preview</p>
+                              </div>
+                            </div>
+                            <span className="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-white/20 backdrop-blur-sm text-white">
+                              Utama
+                            </span>
+                          </div>
                         </div>
-                        <span className="inline-flex items-center px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">Utama</span>
-                      </div>
-                      <div className="mt-3 text-xs font-belleza text-gray-800 space-y-1">
-                        <p className="font-medium text-black">{shipNama}</p>
-                        {shipPhone ? <p>{shipPhone}</p> : null}
-                        {shipStreet ? <p>{shipStreet}</p> : null}
-                        {shipKabupaten ? <p>{shipKabupaten}</p> : null}
-                        {shipKecamatan ? <p>{shipKecamatan}</p> : null}
-                        {shipKelurahan ? <p>{shipKelurahan}</p> : null}
-                        <p>{[shipProvinsi, shipPostal, shipNegara].filter(Boolean).join(', ')}</p>
-                      </div>
-                      <div className="mt-4 flex items-center gap-2 text-xs">
-                        <input id="defaultAddress" type="checkbox" className="w-4 h-4" defaultChecked />
-                        <label htmlFor="defaultAddress" className="text-gray-800">Jadikan sebagai alamat utama</label>
+
+                        {/* Card Body */}
+                        <div className="p-6">
+                          <div className="space-y-4">
+                            {/* Name Section */}
+                            {shipNama && (
+                              <div className="flex items-start gap-3 p-3 rounded-lg bg-white border border-gray-200">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
+                                  <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-9 9a9 9 0 1118 0H3z" fill="currentColor"/>
+                                </svg>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-xs text-gray-500 font-medium">Penerima</p>
+                                  <p className="font-belleza font-semibold text-black mt-0.5">{shipNama}</p>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Phone Section */}
+                            {shipPhone && (
+                              <div className="flex items-start gap-3 p-3 rounded-lg bg-white border border-gray-200">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
+                                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 11.19 19a19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.16a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z" fill="currentColor"/>
+                                </svg>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-xs text-gray-500 font-medium">Telepon</p>
+                                  <p className="font-belleza text-sm text-black mt-0.5">{shipPhone}</p>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Address Section */}
+                            {(shipStreet || shipKelurahan || shipKecamatan || shipKabupaten || shipProvinsi || shipPostal) && (
+                              <div className="flex items-start gap-3 p-3 rounded-lg bg-white border border-gray-200">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600 mt-0.5 flex-shrink-0">
+                                  <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/>
+                                </svg>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-xs text-gray-500 font-medium mb-1.5">Alamat Lengkap</p>
+                                  <div className="font-belleza text-sm text-gray-700 space-y-1">
+                                    {shipStreet && <p className="text-black">{shipStreet}</p>}
+                                    {shipKelurahan && <p>Kel. {shipKelurahan}</p>}
+                                    {shipKecamatan && <p>Kec. {shipKecamatan}</p>}
+                                    {shipKabupaten && <p>{shipKabupaten}</p>}
+                                    {shipProvinsi && <p>{shipProvinsi}</p>}
+                                    {shipPostal && <p className="font-medium text-black">{shipPostal}</p>}
+                                    <p className="text-gray-600">{shipNegara || 'Indonesia'}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Empty State */}
+                            {!shipNama && !shipPhone && !shipStreet && !shipKabupaten && (
+                              <div className="text-center py-8">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto text-gray-300 mb-3">
+                                  <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/>
+                                </svg>
+                                <p className="text-sm text-gray-500 font-belleza">Mulai isi formulir untuk melihat preview</p>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Info Footer */}
+                          <div className="mt-6 p-4 rounded-lg bg-blue-50 border border-blue-100">
+                            <div className="flex items-start gap-2">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600 flex-shrink-0 mt-0.5">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
+                              </svg>
+                              <p className="text-xs text-blue-800 font-belleza leading-relaxed">
+                                Pastikan semua data sudah benar sebelum menyimpan. Alamat ini akan digunakan untuk pengiriman pesanan Anda.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </aside>
                   </div>
