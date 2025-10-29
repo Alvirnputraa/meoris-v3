@@ -1675,7 +1675,7 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
 
                           {/* Column 2 */}
                           <div className="space-y-2.5 md:space-y-3.5">
-                            {/* Provinsi - Enhanced Dropdown with Manual Input */}
+                            {/* Kecamatan - Enhanced Dropdown with Manual Input */}
                             <div className="group">
                               <label className="block font-belleza text-xs font-semibold text-gray-700 mb-1">
                                 Provinsi
