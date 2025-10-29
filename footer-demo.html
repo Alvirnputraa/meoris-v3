@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Demo - MEORIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .font-heading {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <main class="min-h-screen flex flex-col">
+        <!-- Content Area (Demo) -->
+        <div class="flex-grow flex items-center justify-center">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold mb-4">MEORIS Sandal</h1>
+                <p class="text-gray-600 mb-8">Footer akan selalu berada di bawah halaman</p>
+                <svg class="w-8 h-8 mx-auto text-gray-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Footer - Single Line Horizontal Design (Bottom Right) -->
+        <footer class="bg-white py-6 mt-auto">
+            <div class="w-full flex justify-end">
+                <div class="w-full max-w-7xl px-4 md:px-6">
+                    <!-- Mobile: Center aligned -->
+                    <div class="flex flex-col items-center text-center space-y-3 md:hidden">
+                        <span class="font-heading font-bold text-base text-black">MEORIS <span class="text-xs tracking-[0.2em] text-gray-500">Footwear</span></span>
+                        <nav class="font-body text-gray-600 text-xs">
+                            <ul class="flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
+                                <li><a href="/docs/notifikasi" class="hover:text-black transition-colors">Notifikasi</a></li>
+                                <li class="text-gray-300">•</li>
+                                <li><a href="/docs/pengembalian" class="hover:text-black transition-colors">Pengembalian</a></li>
+                                <li class="text-gray-300">•</li>
+                                <li><a href="/docs/syarat&ketentuan" class="hover:text-black transition-colors">Syarat & Ketentuan</a></li>
+                                <li class="text-gray-300">•</li>
+                                <li><a href="/docs/kebijakan-privacy" class="hover:text-black transition-colors">Kebijakan Privasi</a></li>
+                                <li class="text-gray-300">•</li>
+                                <li><a href="/my-account" class="hover:text-black transition-colors">Detail Akun</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <!-- Desktop: Right aligned -->
+                    <div class="hidden md:flex items-center justify-end">
+                        <div class="font-body text-gray-600 text-sm flex items-center flex-wrap justify-end gap-x-2">
+                            <span class="font-heading font-bold text-black">MEORIS</span>
+                            <span class="text-xs tracking-[0.2em] uppercase text-gray-500">Footwear</span>
+                            <span class="text-gray-300 mx-1">•</span>
+                            <a href="/docs/notifikasi" class="hover:text-black transition-colors">Notifikasi</a>
+                            <span class="text-gray-300">•</span>
+                            <a href="/docs/pengembalian" class="hover:text-black transition-colors">Pengembalian</a>
+                            <span class="text-gray-300">•</span>
+                            <a href="/docs/syarat&ketentuan" class="hover:text-black transition-colors">Syarat & Ketentuan</a>
+                            <span class="text-gray-300">•</span>
+                            <a href="/docs/kebijakan-privacy" class="hover:text-black transition-colors">Kebijakan Privasi</a>
+                            <span class="text-gray-300">•</span>
+                            <a href="/my-account" class="hover:text-black transition-colors">Detail Akun</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>

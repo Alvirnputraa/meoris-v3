@@ -1,0 +1,1 @@
+{"orderId":"INV-TEST-001","shipping_method":"JNE","shipping_address":{"nama":"Budi","telepon":"081234567892","alamat":"Lebak Bulus MRT, Jakarta","kode_pos":"12950"},"items":[{"nama_produk":"Kaos Hitam L","description":"T-shirt","category":"fashion","harga_satuan":165000,"quantity":1,"weight":200,"length":10,"width":10,"height":10}],"total":165000}

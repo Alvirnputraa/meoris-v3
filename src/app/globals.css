@@ -1,0 +1,793 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Default page background */
+  background: #ffffff;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* Split background for section 1 (50% gray, 50% white) */
+.split-bg {
+  background: linear-gradient(
+    to right,
+    #f3f4f6 0%,
+    #f3f4f6 50%,
+    #ffffff 50%,
+    #ffffff 100%
+  );
+}
+
+/* On small screens, keep split horizontal: left gray, right white */
+@media (max-width: 767px) {
+  .split-bg {
+    background: linear-gradient(
+      to right,
+      #f3f4f6 0%,
+      #f3f4f6 50%,
+      #ffffff 50%,
+      #ffffff 100%
+    );
+  }
+}
+
+/* Utility classes to use local fonts loaded via next/font/local */
+.font-heading {
+  font-family: var(--font-heading), var(--font-geist-sans), system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), var(--font-geist-sans), system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/* Cormorant Garamond custom font class */
+.font-cormorant {
+  font-family: var(--font-heading), serif;
+}
+
+/* Belleza custom font class */
+.font-belleza {
+  font-family: var(--font-body), sans-serif;
+}
+
+/* Animated line above heading: reveals from right to left in 4s */
+@keyframes reveal-right-to-left {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.line-reveal {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation: reveal-right-to-left 3s ease forwards;
+}
+
+/* Animated line from left to right in 4s */
+@keyframes reveal-left-to-right {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.line-reveal-ltr {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: reveal-left-to-right 3s ease forwards;
+}
+
+/* Switch reveal animations for text and images */
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes softFadeIn {
+  0% { opacity: 0; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Apply to heading spans, paragraph, and button on switch */
+.reveal-switch {
+  animation: fadeSlideUp 700ms cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Apply to images/blocks for soft crossfade */
+.fade-switch {
+  animation: softFadeIn 700ms ease both;
+}
+
+/* Stagger helpers */
+.reveal-delay-1 { animation-delay: 120ms; }
+.reveal-delay-2 { animation-delay: 240ms; }
+.reveal-delay-3 { animation-delay: 360ms; }
+
+/* Exit animation: slide up and fade out */
+@keyframes fadeSlideUpOut {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-12px) scale(0.98); }
+}
+
+.exit-switch {
+  animation: fadeSlideUpOut 500ms cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Vertical slide viewport/track */
+.slide-viewport {
+  overflow: hidden;
+  position: relative;
+}
+.slide-track {
+  display: flex;
+  flex-direction: column;
+  transition: transform 700ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+  transform: translateY(0);
+}
+.slide-track.slide-up {
+  transform: translateY(-50%);
+}
+
+/* Horizontal slide viewport/track (for Section 4 carousel) */
+.hslide-viewport {
+  overflow: hidden;
+  position: relative;
+}
+.hslide-track {
+  display: flex;
+  flex-direction: row;
+  transition: transform 700ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+  transform: translateX(0);
+}
+
+/* Scroll reveal for section cards */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0) scale(0.985);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1), transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Split background with 20% gray on left (for Section 3) */
+.split-left-20 {
+  /* Mobile default: no gray strip */
+  background: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .split-left-20 {
+    background: linear-gradient(
+      to right,
+      #f3f4f6 0%,
+      #f3f4f6 20%,
+      #ffffff 20%,
+      #ffffff 100%
+    );
+  }
+}
+
+/* Section 3: show sidebar/layout only on very wide screens to keep grid centered */
+.section3-layout { display: block; }
+@media (min-width: 1800px) {
+  .section3-layout {
+    display: grid;
+    grid-template-columns: 0.2fr 0.8fr;
+    column-gap: 2rem;
+    align-items: start;
+  }
+}
+.section3-sidebar { display: none; }
+@media (min-width: 1800px) {
+  .section3-sidebar { display: block; }
+}
+
+/* Hover effect for homepage poster image */
+.poster-hover {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 400ms ease;
+}
+.poster-hover:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+.poster-hover::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -40%;
+  width: 40%;
+  height: 140%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 70%);
+  transform: translateX(-120%) rotate(12deg);
+  pointer-events: none;
+  transition: transform 900ms cubic-bezier(.22,1,.36,1);
+}
+.poster-hover:hover::after {
+  transform: translateX(280%) rotate(12deg);
+}
+.poster-img {
+  transition: transform 700ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+}
+.poster-hover:hover .poster-img {
+  transform: scale(1.045) rotate(0.2deg);
+}
+
+/* Hover effect for the four cards next to poster */
+.card-hover {
+  position: relative;
+  overflow: hidden;
+  transition: transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms ease;
+  will-change: transform;
+}
+.card-hover:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+}
+.card-hover::after {
+  content: "";
+  position: absolute;
+  top: -25%;
+  left: -40%;
+  width: 40%;
+  height: 150%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 70%);
+  transform: translateX(-120%) rotate(12deg);
+  pointer-events: none;
+  transition: transform 900ms cubic-bezier(.22,1,.36,1);
+}
+.card-hover:hover::after {
+  transform: translateX(280%) rotate(12deg);
+}
+
+/* Dedicated hover sheen for product cards in Koleksi Utama */
+.product-hover {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 400ms ease;
+}
+.product-hover:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+.product-hover::after {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -80%;
+  width: 28%;
+  height: 160%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transform: translateX(-280%) rotate(12deg);
+  pointer-events: none;
+}
+.product-hover:hover::after {
+  /* Trigger a one-off sweep animation; no lingering state */
+  animation: product-sheen 900ms cubic-bezier(.22,1,.36,1);
+}
+@keyframes product-sheen {
+  0%   { opacity: 0; transform: translateX(-280%) rotate(12deg); }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(480%) rotate(12deg); }
+}
+/* Reuse the same slight zoom/tilt for product images */
+.product-hover:hover .poster-img {
+  transform: scale(1.045) rotate(0.2deg);
+}
+
+/* Zoom-only effect for product cards (no sheen) */
+.product-zoom {
+  position: relative;
+  overflow: hidden;
+}
+.product-zoom:hover .poster-img {
+  transform: scale(1.045) rotate(0.2deg);
+}
+
+/* Notification slide-in animation */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Animated border on hover for product cards */
+.hover-border-animate {
+  position: relative;
+  overflow: visible;
+}
+
+.hover-border-animate::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    transparent,
+    #000,
+    transparent,
+    transparent
+  );
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.hover-border-animate:hover::before {
+  opacity: 0.4;
+  animation: border-spin 2s linear infinite;
+}
+
+@keyframes border-spin {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Shake animation for error messages */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Smooth sidebar cart animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Section 2 redesign: grid paper, sticky notes, and center mind-board */
+.grid-paper {
+  position: relative;
+  background-color: #ffffff;
+  background-image:
+    linear-gradient(#ececec 1px, transparent 1px),
+    linear-gradient(90deg, #ececec 1px, transparent 1px);
+  background-size: 32px 32px, 32px 32px;
+  background-position: 0 0, 0 0;
+}
+
+/* Sticky note base */
+.sticky-note {
+  --note-size: 180px;
+  position: relative;
+  width: var(--note-size);
+  height: var(--note-size);
+  background: #ffe082; /* amber-300 */
+  border-radius: 6px;
+  box-shadow:
+    0 18px 34px rgba(0,0,0,0.18),
+    0 1px 0 rgba(0,0,0,0.25) inset;
+  transform: rotate(-6deg);
+  transition: transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sticky-note:hover {
+  transform: rotate(-4deg) translateY(-2px);
+  box-shadow: 0 24px 44px rgba(0,0,0,0.22), 0 1px 0 rgba(0,0,0,0.25) inset;
+}
+
+/* Label text inside note */
+.note-label {
+  font-family: var(--font-body), sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: #1f2937; /* gray-800 */
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* Red pushpins */
+.pin {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ef4444; /* red-500 */
+  border-radius: 50%;
+  box-shadow: 0 2px 0 #b91c1c, 0 10px 18px rgba(0,0,0,0.18);
+  z-index: 2;
+}
+.pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 2px;
+  height: 8px;
+  background: #b91c1c; /* red-700 pin needle */
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+.pin-top {
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.pin-bottom {
+  bottom: -8px;
+  right: 16px;
+}
+
+/* Variation angles for specific notes */
+.note-left-top { transform: rotate(-8deg); }
+.note-left-bottom { transform: rotate(-3deg); }
+.note-right-top { transform: rotate(8deg); }
+.note-right-middle { transform: rotate(4deg); }
+.note-right-bottom { transform: rotate(2deg); }
+
+@media (min-width: 768px) {
+  .sticky-note { --note-size: 200px; }
+}
+@media (min-width: 1280px) {
+  .sticky-note { --note-size: 220px; }
+}
+
+/* Center dark board with glossy overlay and bolts */
+.mind-board {
+  position: relative;
+  border-radius: 10px;
+  background: linear-gradient(165deg, #606a75 0%, #47505a 52%, #3e4550 100%);
+  box-shadow:
+    0 10px 0 rgba(0,0,0,0.28),
+    0 26px 44px rgba(0,0,0,0.22);
+  color: #fff;
+  overflow: hidden;
+}
+.mind-board::after {
+  content: "";
+  position: absolute;
+  right: -8%;
+  top: -18%;
+  width: 48%;
+  height: 80%;
+  background: radial-gradient(60% 60% at 40% 40%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0) 70%);
+  transform: rotate(18deg);
+  pointer-events: none;
+}
+
+/* Small white bolts on board corners */
+.board-bolt {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+.bolt-tl { top: 12px; left: 14px; }
+.bolt-tr { top: 12px; right: 14px; }
+
+/* Section 2 - New Arrivals card theme */
+.arrivals-bg {
+  background:
+    linear-gradient(135deg, #cdebea 0%, #cdebea 50%, transparent 50%) top left/60% 60% no-repeat,
+    linear-gradient(315deg, #f3c7d1 0%, #f3c7d1 50%, transparent 50%) bottom right/55% 55% no-repeat,
+    linear-gradient(0deg, #e8d4bd 0%, #e8d4bd 100%) center/100% 28% no-repeat,
+    #ffffff;
+}
+
+/* Decorative shapes */
+.shape-stripes {
+  width: 120px;
+  height: 120px;
+  border-radius: 9999px;
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.9) 0 8px, rgba(255,255,255,0.5) 8px 16px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+}
+.shape-dots {
+  width: 110px;
+  height: 110px;
+  border-radius: 9999px;
+  background-image: radial-gradient(#fff 12%, transparent 12%), radial-gradient(#fff 12%, transparent 12%);
+  background-position: 0 0, 12px 12px;
+  background-size: 24px 24px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+}
+
+/* Arrivals card */
+.arrivals-card {
+  position: relative;
+  border: 2px solid #c8b9b9;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 40px rgba(0,0,0,0.18);
+}
+.arrivals-card::after {
+  content: "";
+  position: absolute;
+  inset: 12px -16px -12px 16px;
+  background: #e3d1bb; /* beige offset layer */
+  z-index: -1;
+  border-radius: 6px;
+  box-shadow: 0 18px 30px rgba(0,0,0,0.12);
+}
+
+/* Header bar */
+.arrivals-header {
+  border-bottom: 2px solid #c8b9b9;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.arrivals-title {
+  font-family: var(--font-body), sans-serif;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #374151;
+  font-size: 12px;
+}
+
+/* Close button */
+.arrivals-close {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  color: #a85566; /* mauve */
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+.arrivals-close:hover { transform: scale(1.05); opacity: 0.8; }
+
+/* Image backdrop */
+.arrivals-img-backdrop {
+  position: absolute;
+  inset: 14px;
+  border-radius: 10px;
+  background: #f7c0d3; /* soft pink plate behind product image */
+}
+
+/* Color swatches */
+.color-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 1px solid rgba(0,0,0,0.2);
+  display: inline-block;
+}
+.swatch-teal { background: #a8e3de; }
+.swatch-gray { background: #d1d5db; }
+.swatch-pink { background: #f3c7d1; }
+.swatch-burgundy { background: #7a2e3a; }
+.swatch-cream { background: #e8d4bd; }
+
+/* Buy button with enhanced sheen and motion */
+.btn-buy {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #bfe9e3;
+  color: #111827;
+  border: 2px solid #111827;
+  border-radius: 6px;
+  font-family: var(--font-body), sans-serif;
+  letter-spacing: 0.22em;
+  padding: 12px 20px;
+  transition: transform 220ms cubic-bezier(.22,1,.36,1), box-shadow 220ms ease, background 220ms ease;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.20);
+}
+
+/* Mobile-specific styles for buy button */
+@media (max-width: 767px) {
+  .btn-buy {
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+  }
+}
+/* Sheen sweep layer */
+.btn-buy::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -25%;
+  width: 60%;
+  height: 180%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 70%);
+  transform: translateX(-140%) rotate(18deg);
+  pointer-events: none;
+  opacity: 0;
+}
+/* Offset shadow bar */
+.btn-buy::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: -8px;
+  bottom: -8px;
+  height: 10px;
+  background: #a9dcd6;
+  border-radius: 3px;
+  z-index: -1;
+}
+/* Hover elevate and trigger sheen */
+.btn-buy:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+}
+.btn-buy:hover::before {
+  opacity: 1;
+  animation: button-sheen 900ms cubic-bezier(.22,1,.36,1);
+}
+/* Press feedback */
+.btn-buy:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+}
+/* Sheen animation keyframes */
+@keyframes button-sheen {
+  0%   { transform: translateX(-140%) rotate(18deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(240%) rotate(18deg); opacity: 0; }
+}
+
+/* Section 2: 70/30 split black left, black right */
+.split-70-30 {
+  background: linear-gradient(to right, #000000 0%, #000000 70%, #000000 70%, #000000 100%);
+}
+
+/* Section 3: floating labels animation */
+@keyframes float-soft {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float-soft 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-2 {
+  animation: float-soft 4.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-3 {
+  animation: float-soft 4.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Newsletter popup animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}

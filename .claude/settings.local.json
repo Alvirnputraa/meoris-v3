@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://alamat.thecloudalert.com/api/provinsi/get/\")",
+      "Bash(curl -s \"https://alamat.thecloudalert.com/api/kelurahan/get/?d_kecamatan_id=3206011\")",
+      "Bash(curl -s \"https://alamat.thecloudalert.com/api/kodepos/get/?d_kabkota_id=3206&d_kecamatan_id=3206011\")",
+      "Bash(curl -s \"https://alamat.thecloudalert.com/api/kodepos/get/?d_provinsi_id=9&d_kabkota_id=178\")",
+      "Bash(curl -s \"https://alamat.thecloudalert.com/api/kelurahan/get/?d_kecamatan_id=2610\")",
+      "Bash(curl -s \"https://alamat.thecloudalert.com/api/kodepos/get/?d_kelurahan_id=37759\")",
+      "Bash(npm run build)",
+      "Bash(for file in \"C:\\Users\\Administrator\\Downloads\\meoris-v3-main\\src\\app\\produk\\pesanan\\[orderId]\\page.tsx\" \"C:\\Users\\Administrator\\Downloads\\meoris-v3-main\\src\\app\\produk\\pesanan\\[orderId]\\lacak\\page.tsx\" \"C:\\Users\\Administrator\\Downloads\\meoris-v3-main\\src\\app\\histori\\transaksi\\page.tsx\")",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
