@@ -1364,6 +1364,104 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                               />
                             </div>
 
+                            {/* Provinsi - Enhanced Dropdown with Manual Input */}
+                            <div className="group">
+                              <label className="block font-belleza text-xs font-semibold text-gray-700 mb-1">
+                                Provinsi
+                              </label>
+                              {!isManualProvince ? (
+                                <div className="relative">
+                                  <select
+                                    value={selectedProvinceId}
+                                    onChange={handleProvinceSelect}
+                                    className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-10 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 focus:shadow-lg transition-all duration-300 hover:border-gray-300 hover:shadow-md appearance-none cursor-pointer"
+                                    style={{
+                                      backgroundImage: 'none'
+                                    }}
+                                  >
+                                    <option value="" className="text-gray-500">
+                                      {provinceLoading ? 'Memuat provinsi...' : 'Pilih provinsi'}
+                                    </option>
+                                    {provinceOptions.map((province) => (
+                                      <option key={province.id} value={province.id} className="text-black py-2">
+                                        {province.name}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  {/* Custom Arrow Icon */}
+                                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                    {provinceLoading ? (
+                                      <svg className="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                      </svg>
+                                    ) : (
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200">
+                                        <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                      </svg>
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="relative">
+                                  <input
+                                    type="text"
+                                    value={shipProvinsi}
+                                    onChange={(e) => {
+                                      setShipProvinsi(e.target.value)
+                                      setSelectedProvinceId('')
+                                    }}
+                                    placeholder="Contoh: Jawa Barat"
+                                    className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-24 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300"
+                                  />
+                                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setIsManualProvince(false)
+                                        // Keep the manually entered value and set it as selected
+                                        if (shipProvinsi) {
+                                          // Find matching option or keep manual value
+                                          const matched = provinceOptions.find((province) =>
+                                            province.name.toLowerCase() === shipProvinsi.toLowerCase()
+                                          )
+                                          if (matched) {
+                                            setSelectedProvinceId(matched.id)
+                                          } else {
+                                            // Keep manual mode if no match found
+                                            return
+                                          }
+                                        }
+                                      }}
+                                      className="px-2 py-1 text-xs text-blue-600 hover:text-blue-800 font-semibold"
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setIsManualProvince(false)
+                                        // Reset to empty value when canceling
+                                        setShipProvinsi('')
+                                        setSelectedProvinceId('')
+                                      }}
+                                      className="px-2 py-1 text-xs text-gray-600 hover:text-gray-800 font-semibold"
+                                    >
+                                      Batal
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                              {provinceError && !isManualProvince ? (
+                                <p className="mt-1.5 text-xs text-red-600 flex items-start gap-1 animate-shake">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0 mt-0.5">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                                  </svg>
+                                  Tidak dapat memuat provinsi. Silakan refresh halaman atau periksa koneksi anda
+                                </p>
+                              ) : null}
+                            </div>
+
                             {/* Kota/Kabupaten - Enhanced Dropdown with Manual Input */}
                             <div className="group">
                               <label className="block font-belleza text-xs font-semibold text-gray-700 mb-1">
