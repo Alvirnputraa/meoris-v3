@@ -29,7 +29,7 @@ Content-Type: application/json
 
 ### Example cURL
 ```bash
-curl -X POST https://sandal-market-1.preview.emergentagent.com/api/returns/approve \
+curl -X POST https://sandal-shop-3.preview.emergentagent.com/api/returns/approve \
   -H "Content-Type: application/json" \
   -d '{
     "return_id": "12345678-1234-1234-1234-123456789abc"
@@ -171,7 +171,7 @@ curl -X POST http://localhost:3000/api/returns/approve \
 
 ### Test di Production
 ```bash
-curl -X POST https://sandal-market-1.preview.emergentagent.com/api/returns/approve \
+curl -X POST https://sandal-shop-3.preview.emergentagent.com/api/returns/approve \
   -H "Content-Type: application/json" \
   -d '{"return_id": "your-return-id-here"}' \
   | json_pp

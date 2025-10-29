@@ -25,7 +25,7 @@ usage() {
     echo "  API_URL - Base URL (default: http://localhost:3000)"
     echo ""
     echo -e "${YELLOW}Example with custom URL:${NC}"
-    echo "  API_URL=https://sandal-market-1.preview.emergentagent.com ./test_approve_return.sh <return_id>"
+    echo "  API_URL=https://sandal-shop-3.preview.emergentagent.com ./test_approve_return.sh <return_id>"
     exit 1
 }
 

@@ -21,7 +21,7 @@
 
 Untuk production, buat environment lagi:
    - Variable: `base_url`
-   - Value: `https://sandal-market-1.preview.emergentagent.com`
+   - Value: `https://sandal-shop-3.preview.emergentagent.com`
 
 ### Step 3: Test API
 1. Pilih environment: `Meoris Local` dari dropdown (pojok kanan atas)
