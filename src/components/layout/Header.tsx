@@ -656,7 +656,7 @@ export default function Header({ variant = 'default', hideRightIcons = false }: 
             onClick={handleCloseFavSidebar}
             aria-hidden="true"
           />
-          <aside className="absolute right-0 top-0 h-full w-96 max-w-[92%] bg-white shadow-2xl p-6 transform transition-transform duration-500 ease-out animate-slideInRight">
+          <aside className="absolute right-0 top-0 h-full w-80 md:w-96 max-w-[92%] bg-white shadow-2xl p-6 transform transition-transform duration-500 ease-out animate-slideInRight">
             {/* Pull-tab close button on the left edge */}
             <button
               type="button"
