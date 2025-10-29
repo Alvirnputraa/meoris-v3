@@ -1573,30 +1573,37 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                             {/* Kecamatan - Enhanced Dropdown with Manual Input */}
                             <div className="group">
                               <label className="block font-belleza text-xs font-semibold text-gray-700 mb-1">
-                                Provinsi
+                                Kecamatan
                               </label>
-                              {!isManualProvince ? (
+                              {!isManualDistrict ? (
                                 <div className="relative">
                                   <select
-                                    value={selectedProvinceId}
-                                    onChange={handleProvinceSelect}
-                                    className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-10 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 focus:shadow-lg transition-all duration-300 hover:border-gray-300 hover:shadow-md appearance-none cursor-pointer"
+                                    value={selectedDistrictId}
+                                    onChange={handleDistrictSelect}
+                                    disabled={!selectedRegencyId || districtLoading || districtOptions.length === 0}
+                                    className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-10 text-sm text-black bg-white focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 focus:shadow-lg transition-all duration-300 hover:border-gray-300 hover:shadow-md disabled:bg-gradient-to-br disabled:from-gray-50 disabled:to-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 appearance-none cursor-pointer"
                                     style={{
                                       backgroundImage: 'none'
                                     }}
                                   >
                                     <option value="" className="text-gray-500">
-                                      {provinceLoading ? 'Memuat provinsi...' : 'Pilih provinsi'}
+                                      {!selectedRegencyId
+                                        ? 'Pilih kota/kabupaten terlebih dahulu'
+                                        : districtLoading
+                                          ? 'Memuat kecamatan...'
+                                          : districtOptions.length === 0
+                                            ? 'Data tidak tersedia'
+                                            : 'Pilih kecamatan'}
                                     </option>
-                                    {provinceOptions.map((province) => (
-                                      <option key={province.id} value={province.id} className="text-black py-2">
-                                        {province.name}
+                                    {districtOptions.map((district) => (
+                                      <option key={district.id} value={district.id} className="text-black py-2">
+                                        {district.name}
                                       </option>
                                     ))}
                                   </select>
                                   {/* Custom Arrow Icon */}
                                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                    {provinceLoading ? (
+                                    {districtLoading ? (
                                       <svg className="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -1612,27 +1619,27 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                 <div className="relative">
                                   <input
                                     type="text"
-                                    value={shipProvinsi}
+                                    value={shipKecamatan}
                                     onChange={(e) => {
-                                      setShipProvinsi(e.target.value)
-                                      setSelectedProvinceId('')
+                                      setShipKecamatan(e.target.value)
+                                      setSelectedDistrictId('')
                                     }}
-                                    placeholder="Contoh: Jawa Barat"
+                                    placeholder="Contoh: Kawalu"
                                     className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-24 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300"
                                   />
                                   <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        setIsManualProvince(false)
+                                        setIsManualDistrict(false)
                                         // Keep the manually entered value and set it as selected
-                                        if (shipProvinsi) {
+                                        if (shipKecamatan) {
                                           // Find matching option or keep manual value
-                                          const matched = provinceOptions.find((province) =>
-                                            province.name.toLowerCase() === shipProvinsi.toLowerCase()
+                                          const matched = districtOptions.find((district) =>
+                                            district.name.toLowerCase() === shipKecamatan.toLowerCase()
                                           )
                                           if (matched) {
-                                            setSelectedProvinceId(matched.id)
+                                            setSelectedDistrictId(matched.id)
                                           } else {
                                             // Keep manual mode if no match found
                                             return
@@ -1646,10 +1653,10 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        setIsManualProvince(false)
+                                        setIsManualDistrict(false)
                                         // Reset to empty value when canceling
-                                        setShipProvinsi('')
-                                        setSelectedProvinceId('')
+                                        setShipKecamatan('')
+                                        setSelectedDistrictId('')
                                       }}
                                       className="px-2 py-1 text-xs text-gray-600 hover:text-gray-800 font-semibold"
                                     >
@@ -1658,12 +1665,12 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                   </div>
                                 </div>
                               )}
-                              {provinceError && !isManualProvince ? (
+                              {districtError && !isManualDistrict ? (
                                 <p className="mt-1.5 text-xs text-red-600 flex items-start gap-1 animate-shake">
                                   <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0 mt-0.5">
                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
                                   </svg>
-                                  Tidak dapat memuat provinsi. Silakan refresh halaman atau periksa koneksi anda
+                                  Tidak dapat memuat kecamatan. Silakan refresh halaman atau periksa koneksi anda
                                 </p>
                               ) : null}
                             </div>
