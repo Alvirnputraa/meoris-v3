@@ -1732,28 +1732,29 @@ const [selectedProvinceId, setSelectedProvinceId] = useState('')
                                     placeholder="Contoh: Tugujaya"
                                     className="w-full rounded-lg border-2 border-gray-200 px-3.5 py-2.5 pr-24 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black focus:ring-4 focus:ring-black/5 transition-all duration-200 hover:border-gray-300"
                                   />
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setIsManualVillage(false)
-                                      // Keep the manually entered value and set it as selected
-                                      if (shipKelurahan) {
-                                        // Find matching option or keep manual value
-                                        const matched = villageOptions.find((village) =>
-                                          village.name.toLowerCase() === shipKelurahan.toLowerCase()
-                                        )
-                                        if (matched) {
-                                          setSelectedVillageId(matched.id)
-                                        } else {
-                                          // Keep manual mode if no match found
-                                          return
+                                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setIsManualVillage(false)
+                                        // Keep the manually entered value and set it as selected
+                                        if (shipKelurahan) {
+                                          // Find matching option or keep manual value
+                                          const matched = villageOptions.find((village) =>
+                                            village.name.toLowerCase() === shipKelurahan.toLowerCase()
+                                          )
+                                          if (matched) {
+                                            setSelectedVillageId(matched.id)
+                                          } else {
+                                            // Keep manual mode if no match found
+                                            return
+                                          }
                                         }
-                                      }
-                                    }}
-                                    className="px-2 py-1 text-xs text-blue-600 hover:text-blue-800 font-semibold"
-                                  >
-                                    Save
-                                  </button>
+                                      }}
+                                      className="px-2 py-1 text-xs text-blue-600 hover:text-blue-800 font-semibold"
+                                    >
+                                      Save
+                                    </button>
                                     <button
                                       type="button"
                                       onClick={() => {
