@@ -30,9 +30,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/payment/:orderId*/:status*',
-    '/api/callback/:path*',
-    '/api/tripay/callback/:path*',
-    '/api/biteship/webhook/:path*',
+    '/payment/:orderId(.*)*',
+    '/api/:path*',
   ],
 }
