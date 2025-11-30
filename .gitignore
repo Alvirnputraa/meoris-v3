@@ -1,0 +1,66 @@
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# testing
+/coverage
+*.test.js
+test_*.js
+verify_*.js
+debug_*.js
+simulate_*.sh
+simulate_*.bat
+
+# production
+/build
+/out
+
+# misc
+.DS_Store
+*.pem
+nul
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+.claude/
+.test_return_id
+
+# vercel
+.vercel
+
+# IDEs
+.idea
+.vscode
+*.swp
+*.swo
+
+
+# Next.js build cache
+.next/
+
+# Node modules
+node_modules/
+
+# Archive besar
+*.7z
+*.zip
+*.rar
+
+
+# SQL and test files (keep in repo for reference but not needed in production)
+# Uncomment if you want to exclude them:
+# *.sql
+# check_*.js
+# run_*.js
+# setup_*.js
+# get_*.js
+# insert_*.sql
+# migrate_*.sql
+# update_*.sql

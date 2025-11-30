@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Footer Layout</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; }
+        
+        /* Layout dengan footer sticky di bawah - BENAR */
+        .layout-correct {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .content-grow {
+            flex-grow: 1;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .footer-auto {
+            margin-top: auto;
+            background: white;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        /* Layout tanpa flex - SALAH */
+        .layout-wrong {
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .footer-normal {
+            background: white;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .demo-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: #e0e0e0;
+        }
+        .demo-box {
+            flex: 1;
+            border: 2px solid #333;
+            overflow: hidden;
+        }
+        .demo-header {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .status-correct { background: #4caf50; color: white; }
+        .status-wrong { background: #f44336; color: white; }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Demo BENAR (seperti my-account & permintaan-returns yang sudah diperbaiki) -->
+        <div class="demo-box">
+            <div class="demo-header">
+                ✅ LAYOUT BENAR<span class="status status-correct">FIXED</span>
+                <br><small>my-account & permintaan-returns (setelah fix)</small>
+            </div>
+            <div class="layout-correct" style="height: 400px; background: white;">
+                <div style="padding: 20px; background: #fafafa; border-bottom: 1px solid #ddd;">
+                    <strong>Header</strong>
+                </div>
+                <div class="content-grow">
+                    <h3>Content Area (flex-grow)</h3>
+                    <p>Konten form pengembalian...</p>
+                    <p>• min-h-screen flex flex-col</p>
+                    <p>• Content dengan flex-grow</p>
+                    <p>• Footer dengan mt-auto</p>
+                </div>
+                <div class="footer-auto">
+                    <strong>Footer (mt-auto)</strong> - Selalu di bawah ✅
+                    <br><small>MEORIS Footwear • Notifikasi • Pengembalian • ...</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo SALAH (seperti permintaan-returns sebelum diperbaiki) -->
+        <div class="demo-box">
+            <div class="demo-header">
+                ❌ LAYOUT SALAH<span class="status status-wrong">BEFORE</span>
+                <br><small>permintaan-returns (sebelum fix)</small>
+            </div>
+            <div style="height: 400px; background: white; overflow: auto;">
+                <div style="padding: 20px; background: #fafafa; border-bottom: 1px solid #ddd;">
+                    <strong>Header</strong>
+                </div>
+                <div class="layout-wrong">
+                    <h3>Content Area (no flex)</h3>
+                    <p>Konten form pengembalian...</p>
+                    <p>• Tidak ada min-h-screen</p>
+                    <p>• Tidak ada flex layout</p>
+                    <p>• Footer mengambang ❌</p>
+                </div>
+                <div class="footer-normal">
+                    <strong>Footer (no mt-auto)</strong> - Tidak selalu di bawah ❌
+                    <br><small>MEORIS Footwear • Notifikasi • Pengembalian • ...</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 20px; background: #fff;">
+        <h2>✅ Masalah Sudah Diperbaiki!</h2>
+        <p><strong>File yang diperbaiki:</strong> /app/src/app/permintaan-returns/[orderId]/page.tsx</p>
+        <br>
+        <h3>Perubahan yang dilakukan:</h3>
+        <ol>
+            <li><strong>Line 286:</strong> Menambahkan <code>className="min-h-screen flex flex-col"</code> pada tag &lt;main&gt;</li>
+            <li><strong>Line 650:</strong> Menambahkan wrapper <code>&lt;div className="flex-grow"&gt;</code> untuk content area</li>
+            <li><strong>Line 766:</strong> Menutup wrapper div sebelum footer</li>
+            <li><strong>Line 769:</strong> Menambahkan <code>mt-auto</code> pada footer</li>
+        </ol>
+        <br>
+        <p>Sekarang footer pada halaman <strong>permintaan-returns</strong> akan selalu berada di bawah pada tampilan desktop, sama seperti halaman <strong>my-account</strong>.</p>
+    </div>
+</body>
+</html>

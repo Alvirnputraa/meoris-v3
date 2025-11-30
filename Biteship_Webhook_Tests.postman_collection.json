@@ -1,0 +1,321 @@
+{
+  "info": {
+    "name": "Biteship Webhook Tests",
+    "description": "Collection untuk test Biteship webhook integration di Meoris",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "webhook_url",
+      "value": "https://meoris.id/api/biteship/webhook",
+      "type": "string"
+    },
+    {
+      "key": "order_id",
+      "value": "3ec29e32-b31f-405d-a45f-f725e8fe0ce6",
+      "type": "string"
+    },
+    {
+      "key": "signature",
+      "value": "938f77133ba36cc9d994e437daebf93aa396c38b3bb28ab1b1d6a88ace16cfae",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Installation Test (Empty Body)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Test webhook installation - Biteship sends empty body to verify endpoint"
+      },
+      "response": []
+    },
+    {
+      "name": "2. GET Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Health check endpoint"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Status Update - Confirmed",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"confirmed\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Pesanan Dikonfirmasi'"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Status Update - Allocated",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"allocated\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Kurir Dialokasikan'"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Status Update - Picking Up",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"picking_up\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Sedang Dijemput'"
+      },
+      "response": []
+    },
+    {
+      "name": "6. Status Update - Picked",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"picked\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Sudah Dijemput'"
+      },
+      "response": []
+    },
+    {
+      "name": "7. Status Update - Dropping Off",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"dropping_off\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Dalam Pengiriman'"
+      },
+      "response": []
+    },
+    {
+      "name": "8. Status Update - Delivered",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"delivered\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Terkirim'"
+      },
+      "response": []
+    },
+    {
+      "name": "9. Waybill ID Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.waybill_id\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_waybill_id\": \"JNE-POSTMAN-TEST-12345\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update resi number"
+      },
+      "response": []
+    },
+    {
+      "name": "10. Status Update - Cancelled",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"cancelled\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Dibatalkan'"
+      },
+      "response": []
+    },
+    {
+      "name": "11. Status Update - Returned",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "{{signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"courier_tracking_id\": \"BITESHIP-POSTMAN-TEST\",\n  \"status\": \"returned\",\n  \"courier_name\": \"JNE\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Update status to 'Dikembalikan'"
+      },
+      "response": []
+    },
+    {
+      "name": "12. Invalid Signature Test",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Biteship-Signature",
+            "value": "invalid-signature-should-fail"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"order.status\",\n  \"order_id\": \"{{order_id}}\",\n  \"status\": \"confirmed\"\n}"
+        },
+        "url": {
+          "raw": "{{webhook_url}}",
+          "host": ["{{webhook_url}}"]
+        },
+        "description": "Test security - should return 401 Unauthorized"
+      },
+      "response": []
+    }
+  ]
+}

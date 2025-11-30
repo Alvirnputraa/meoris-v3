@@ -1,0 +1,15 @@
+# Postman Quick Start
+
+1. Import Collection JSON ke Postman
+   File: Biteship_Webhook_Tests.postman_collection.json
+
+2. Atau buat manual:
+   Method: POST
+   URL: https://meoris.id/api/biteship/webhook
+
+3. Headers:
+   Content-Type: application/json
+   X-Biteship-Signature: 938f77133ba36cc9d994e437daebf93aa396c38b3bb28ab1b1d6a88ace16cfae
+
+4. Body (JSON):
+   {"event":"order.status","order_id":"3ec29e32-b31f-405d-a45f-f725e8fe0ce6","status":"delivered"}

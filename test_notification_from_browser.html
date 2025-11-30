@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Notification Query</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <h1>Test Notification Query</h1>
+  <p>This will test if the notifications can be fetched from the browser (with auth)</p>
+
+  <div id="status">Loading...</div>
+  <pre id="output"></pre>
+
+  <script>
+    const supabaseUrl = 'https://vtwooclhjobgdgvljauq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0d29vY2xoam9iZ2RndmxqYXVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg0MjQzNTIsImV4cCI6MjA3NDAwMDM1Mn0.4cnd_WQ26viMhHyyI7thasFmb503xVgvlQ3oeIrUDRs';
+
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function testNotifications() {
+      const statusDiv = document.getElementById('status');
+      const outputDiv = document.getElementById('output');
+
+      try {
+        // Check current session
+        const { data: sessionData } = await supabase.auth.getSession();
+
+        outputDiv.textContent += 'Current Session:\n';
+        outputDiv.textContent += JSON.stringify(sessionData, null, 2) + '\n\n';
+
+        if (!sessionData.session) {
+          statusDiv.textContent = '❌ Not authenticated! Please login first.';
+          statusDiv.style.color = 'red';
+          return;
+        }
+
+        const userId = sessionData.session.user.id;
+        statusDiv.textContent = '✅ Authenticated as: ' + sessionData.session.user.email;
+        statusDiv.style.color = 'green';
+
+        outputDiv.textContent += 'User ID: ' + userId + '\n\n';
+
+        // Try to fetch notifications
+        outputDiv.textContent += 'Fetching notifications...\n';
+
+        const { data, error } = await supabase
+          .from('notifications')
+          .select('*')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(50);
+
+        if (error) {
+          outputDiv.textContent += '❌ Error:\n';
+          outputDiv.textContent += JSON.stringify(error, null, 2) + '\n';
+          statusDiv.textContent = '❌ Error fetching notifications';
+          statusDiv.style.color = 'red';
+        } else {
+          outputDiv.textContent += '✅ Success! Found ' + (data?.length || 0) + ' notifications\n\n';
+          outputDiv.textContent += 'Data:\n';
+          outputDiv.textContent += JSON.stringify(data, null, 2);
+
+          if (data && data.length > 0) {
+            statusDiv.textContent = '✅ Notifications loaded successfully!';
+            statusDiv.style.color = 'green';
+          } else {
+            statusDiv.textContent = '⚠️ No notifications found (RLS might be blocking)';
+            statusDiv.style.color = 'orange';
+          }
+        }
+      } catch (err) {
+        outputDiv.textContent += '❌ Exception:\n' + err.message;
+        statusDiv.textContent = '❌ Exception occurred';
+        statusDiv.style.color = 'red';
+      }
+    }
+
+    testNotifications();
+  </script>
+</body>
+</html>

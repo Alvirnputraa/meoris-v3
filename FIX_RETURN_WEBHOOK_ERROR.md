@@ -1,0 +1,192 @@
+# Fix Return Shipping Webhook Error 500
+
+## Masalah
+Webhook untuk tracking resi pengembalian mengalami error 500 dengan pesan:
+```json
+{
+  "error": "Database update failed"
+}
+```
+
+Ketika menerima payload dari Biteship:
+```json
+{
+  "event": "order.status",
+  "order_id": "690dd0887692553f72342bb3",
+  "courier_waybill_id": "WYB-1762513032476",
+  "courier_company": "sicepat",
+  "status": "picking_up",
+  "updated_at": "2025-11-08T04:06:08.351Z",
+  ...
+}
+```
+
+## Root Cause
+Error terjadi karena:
+
+1. **Conflict dengan kolom `updated_at`**:
+   - Tabel `return_shipping_history` sudah memiliki kolom `updated_at` dengan default value `NOW()`
+   - Webhook code mencoba insert nilai `updated_at` dari payload Biteship
+   - Database menolak karena konflik dengan trigger/default value
+
+2. **Kurangnya error detail**:
+   - Error message tidak menampilkan detail spesifik dari database
+   - Sulit troubleshooting tanpa informasi lengkap
+
+## Solusi yang Diterapkan
+
+### 1. Fix Database Insert - Hapus `updated_at` dari Insert
+**File**: `src/app/api/biteship/webhook/route.ts`
+
+**Sebelum**:
+```typescript
+const { error: historyError } = await supabaseAdmin
+  .from('return_shipping_history')
+  .insert({
+    return_id: dbReturnId,
+    // ... fields lainnya
+    biteship_status: status,
+    status_display: mappedStatus,
+    note: mappedStatus,
+    updated_at: body.updated_at || new Date().toISOString()  // ❌ MASALAH
+  })
+```
+
+**Sesudah**:
+```typescript
+const { error: historyError } = await supabaseAdmin
+  .from('return_shipping_history')
+  .insert({
+    return_id: dbReturnId,
+    // ... fields lainnya
+    biteship_status: status,
+    status_display: mappedStatus,
+    note: mappedStatus
+    // ✅ updated_at akan di-set otomatis oleh database default value
+  })
+```
+
+### 2. Improved Error Messages
+**File**: `src/app/api/biteship/webhook/route.ts`
+
+**Sebelum**:
+```typescript
+if (historyError) {
+  console.error('Error inserting return shipping history:', historyError)
+  return NextResponse.json({ error: 'Database update failed' }, { status: 500 })
+}
+```
+
+**Sesudah**:
+```typescript
+if (historyError) {
+  console.error('Error inserting return shipping history:', historyError)
+  console.error('Full error details:', JSON.stringify(historyError, null, 2))
+  return NextResponse.json({
+    error: 'Database update failed',
+    details: historyError.message || 'Unknown error',
+    code: historyError.code || 'N/A'
+  }, { status: 500 })
+}
+```
+
+## Testing
+
+### 1. Test dengan Script
+```bash
+node test_return_webhook.js
+```
+
+**Result**: ✅ Success
+```
+✅ Successfully inserted return shipping history!
+Record: {
+  "id": "a500a23e-d57f-45a0-8cf6-30b3335e95fa",
+  "return_id": "fd56cbb6-19b9-4af3-9fd7-b10e5f9e20ac",
+  "status_display": "Kurir menuju lokasi penjemputan",
+  "biteship_status": "picking_up",
+  "created_at": "2025-11-08T04:10:48.771199+00:00",
+  "updated_at": "2025-11-08T04:10:48.771199+00:00"
+}
+```
+
+### 2. Test dengan Webhook Endpoint
+```bash
+curl -X POST http://localhost:3000/api/biteship/webhook \
+  -H "Content-Type: application/json" \
+  -d '{"event":"order.status","courier_waybill_id":"WYB-1762513032476","status":"picking_up",...}'
+```
+
+**Result**: ✅ Success
+```json
+{
+  "success": true,
+  "message": "ok"
+}
+```
+
+### 3. Verify Data di Database
+```bash
+node -e "..."
+```
+
+**Result**: ✅ Data tersimpan dengan benar
+```json
+[
+  {
+    "courier_waybill_id": "WYB-1762513032476",
+    "status_display": "Kurir menuju lokasi penjemputan",
+    "biteship_status": "picking_up",
+    "created_at": "2025-11-08T04:11:43.943639+00:00"
+  }
+]
+```
+
+## Perubahan File
+- ✅ `src/app/api/biteship/webhook/route.ts` - Line 133-150, 229-237
+
+## Status Mapping yang Didukung
+Webhook sekarang dapat memetakan status Biteship ke status display:
+
+| Biteship Status | Status Display (Indonesia) |
+|----------------|----------------------------|
+| `confirmed` | Menunggu pesanan diserahkan ke pihak jasa kirim |
+| `allocated` | Menunggu penjemputan kurir |
+| `picking_up` | Kurir menuju lokasi penjemputan |
+| `picked` | Pesanan telah diserahkan ke jasa kirim |
+| `dropping_off` | Dalam Pengiriman |
+| `delivered` | Terkirim |
+| `cancelled` | Dibatalkan |
+| `rejected` | Ditolak |
+| `courier_not_found` | Kurir Tidak Ditemukan |
+| `returned` | Dikembalikan |
+| `on_hold` | Ditahan |
+| `return_in_transit` | Sedang Dikembalikan |
+| `disposed` | Dibuang |
+
+## Flow Webhook Return Shipping
+
+1. **Biteship mengirim webhook** → `POST /api/biteship/webhook`
+2. **Lookup return** by `courier_waybill_id` in `returns` table
+3. **Map status** dari Biteship → Indonesia
+4. **Insert to `return_shipping_history`** dengan:
+   - `return_id` (reference ke returns table)
+   - `courier_waybill_id` (nomor resi)
+   - `biteship_status` (original status dari Biteship)
+   - `status_display` (status dalam bahasa Indonesia)
+   - `courier_company`, `courier_type`, dll
+   - `created_at`, `updated_at` (auto-generated by DB)
+5. **Return success** → `{"success": true, "message": "ok"}`
+
+## Catatan Penting
+- Kolom `updated_at` di semua history tables akan di-set otomatis oleh database
+- JANGAN kirim nilai `updated_at` dari aplikasi ke database untuk tabel history
+- Webhook sekarang memberikan error details yang lebih lengkap untuk debugging
+- Fix yang sama sudah diterapkan untuk event `order.waybill_id`
+
+## Next Steps
+- ✅ Webhook return shipping tracking sudah berfungsi
+- ✅ Error handling sudah diperbaiki
+- ✅ Testing completed
+- 🔄 Monitor webhook logs untuk memastikan tidak ada error lagi
+- 🔄 Pastikan UI menampilkan tracking history dengan benar di halaman user purchase

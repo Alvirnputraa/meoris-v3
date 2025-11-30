@@ -1,0 +1,382 @@
+{/* Grid koleksi: 4 kolom (desktop), 8 item total */}
+                <div className="mt-10 max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-8 lg:gap-x-6 lg:gap-y-10 xl:gap-x-8 xl:gap-y-12">
+                  {products && products.length > 0 ? (
+                    products.map((product) => (
+                      <div key={product.id} className="flex flex-col gap-3 w-full">
+                        <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                          <button type="button" aria-label="Favorit" className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition">
+                            <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                          </button>
+                          {product.photo1 ? (
+                            <Image src={product.photo1} alt={product.nama_produk} fill sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw" className="object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400">No image</div>
+                          )}
+                          <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                            <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                              <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-left">
+                          <p className="font-body text-lg md:text-xl text-gray-500">{product.nama_produk}</p>
+                          <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp {product.harga.toLocaleString('id-ID')}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center text-gray-500">Tidak ada produk</div>
+                  )}
+                </div>
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                    <button
+                      type="button"
+                      aria-label="Favorit"
+                      className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition"
+                    >
+                      <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                    </button>
+                    <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                      <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                        <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                      </div>
+                    </div>
+                      <Image
+                        src="/images/test1p.png"
+                        alt="Sock Sneakers Cloud"
+                        fill
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                    <button
+                      type="button"
+                      aria-label="Favorit"
+                      className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition"
+                    >
+                      <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                    </button>
+                    <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                      <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                        <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                      </div>
+                    </div>
+                      <Image
+                        src="/images/test1p.png"
+                        alt="Sock Sneakers Cloud"
+                        fill
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                    <button
+                      type="button"
+                      aria-label="Favorit"
+                      className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition"
+                    >
+                      <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                    </button>
+                    <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                      <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                        <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                      </div>
+                    </div>
+                      <Image
+                        src="/images/test1p.png"
+                        alt="Sock Sneakers Cloud"
+                        fill
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                    <button
+                      type="button"
+                      aria-label="Favorit"
+                      className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition"
+                    >
+                      <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                    </button>
+                    <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                      <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                        <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                      </div>
+                    </div>
+                      <Image
+                        src="/images/test1p.png"
+                        alt="Sock Sneakers Cloud"
+                        fill
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                    <button
+                      type="button"
+                      aria-label="Favorit"
+                      className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition"
+                    >
+                      <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                    </button>
+                    <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                      <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                        <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                      </div>
+                    </div>
+                      <Image
+                        src="/images/test1p.png"
+                        alt="Sock Sneakers Cloud"
+                        fill
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                    <button
+                      type="button"
+                      aria-label="Favorit"
+                      className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition"
+                    >
+                      <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                    </button>
+                    <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                      <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                        <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                      </div>
+                    </div>
+                      <Image
+                        src="/images/test1p.png"
+                        alt="Sock Sneakers Cloud"
+                        fill
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="group relative overflow-hidden border border-gray-200 bg-gray-100 aspect-square w-full cursor-pointer">
+                    <button
+                      type="button"
+                      aria-label="Favorit"
+                      className="absolute top-2 right-2 z-10 p-1 rounded-full bg-white/90 shadow-md hover:scale-105 transition"
+                    >
+                      <Image src="/images/star.png" alt="Favorit" width={28} height={28} />
+                    </button>
+                    <div className="absolute inset-x-0 bottom-3 transition-all duration-300 ease-out opacity-100 translate-y-0 pointer-events-auto md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:pointer-events-none">
+                      <div className="mx-auto w-[88%] md:w-[80%] bg-black/90 text-white text-center py-2 rounded-md shadow-lg">
+                        <span className="font-body text-xs md:text-sm">Tambah ke keranjang</span>
+                      </div>
+                    </div>
+                      <Image
+                        src="/images/test1p.png"
+                        alt="Sock Sneakers Cloud"
+                        fill
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 24vw, (min-width: 768px) 28vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-body text-lg md:text-xl text-gray-500">Sock Sneakers Cloud</p>
+                      <p className="font-body text-xl md:text-2xl text-black font-semibold">Rp 250.000</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Panah bawah grid (Koleksi Utama) */}
+                <div className="mt-8 flex items-center justify-center gap-4">
+                  <button
+                    type="button"
+                    aria-label="Sebelumnya"
+                    className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-transparent text-black border border-black hover:bg-black hover:text-white transition"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Berikutnya"
+                    className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-transparent text-black border border-black hover:bg-black hover:text-white transition"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Section 5: Kotak Landscape di Tengah */}
+        <section className="relative overflow-hidden bg-gray-100 py-12 md:py-16" data-route="/kenyamanan">
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="flex items-center justify-center">
+              <div className="relative w-[97%] max-w-[1100px] aspect-[16/5.2] md:aspect-[32/8] bg-white border border-black rounded-md flex items-center justify-center">
+                <div className="w-full px-6 md:px-10">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 items-center justify-items-center">
+                    <div className="flex flex-col items-center text-center gap-2">
+                      <Image src="/images/shipped.png" alt="Diskon Pengiriman" width={56} height={56} />
+                      <p className="font-heading text-base md:text-lg text-black">Diskon Pengiriman</p>
+                      <p className="font-heading text-sm text-gray-600">pada semua pesanan</p>
+                    </div>
+                    <div className="flex flex-col items-center text-center gap-2">
+                      <Image src="/images/support.png" alt="24/7 Dukungan Langsung" width={56} height={56} />
+                      <p className="font-heading text-base md:text-lg text-black">24/7 Dukungan Langsung</p>
+                      <p className="font-heading text-sm text-gray-600">pada semua pesanan</p>
+                    </div>
+                    <div className="flex flex-col items-center text-center gap-2">
+                      <Image src="/images/payment.png" alt="Pembayaran Mudah" width={56} height={56} />
+                      <p className="font-heading text-base md:text-lg text-black">Pembayaran Mudah</p>
+                      <p className="font-heading text-sm text-gray-600">pada semua pesanan</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Section 6: Scroll Test (Transparent with background image) */}
+        <section className="relative overflow-hidden bg-transparent py-16" data-route="/notifikasi">
+          {/* Background image layer behind for cool scrolling effect */}
+          <div
+            className="absolute inset-0 -z-10 bg-center bg-cover bg-fixed"
+            aria-hidden="true"
+            style={{ backgroundImage: "url(/images/bgg.png)" }}
+          />
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="h-[35vh] flex items-center justify-start">
+              <div className="w-full sm:w-[80%] md:w-[60%] lg:w-[48%] max-w-xl">
+                <h3 className="font-heading text-2xl md:text-3xl lg:text-4xl text-black">Kabar Spesial!</h3>
+                <p className="font-body text-sm md:text-base text-gray-800 mt-3">
+                  Hanya perlu sedetik untuk jadi yang pertama mengetahui kabar terbaru dari kami.
+                </p>
+                <form className="mt-5 flex flex-col sm:flex-row gap-3" onSubmit={(e) => e.preventDefault()}>
+                  <input
+                    type="email"
+                    required
+                    placeholder="Masukkan email Anda"
+                    className="font-body w-full sm:flex-1 rounded-md sm:rounded-l-md sm:rounded-r-none border border-gray-300 px-4 py-3 text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black/50"
+                  />
+                  <button
+                    type="submit"
+                    className="font-body whitespace-nowrap rounded-md sm:rounded-r-md sm:rounded-l-none bg-black text-white px-5 py-3 hover:opacity-90 transition"
+                    aria-label="Kirim email berlangganan"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Section 7: Footer-style info blocks */}
+        <section className="bg-white py-14 md:py-16" data-route="/detail">
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
+              {/* Brand + contact */}
+              <div className="space-y-5">
+                <div className="-ml-1 md:-ml-2">
+                  <span className="font-heading font-bold text-3xl tracking-wide text-black">MEORIS</span>
+                  <div className="mt-1 text-[11px] tracking-[0.3em] uppercase text-gray-600">Footwear</div>
+                </div>
+                <ul className="space-y-3 font-body text-gray-700">
+                  <li className="grid grid-cols-[20px_1fr] md:grid-cols-[28px_1fr] items-start gap-3">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-black w-5 h-5 md:w-7 md:h-7"><path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="currentColor"/></svg>
+                    <span className="text-sm md:text-sm leading-snug">Sambong mangkubumi Rt 001/Rw 002, Kota Tasikmalaya, Jawa Barat</span>
+                  </li>
+                  <li className="grid grid-cols-[20px_1fr] md:grid-cols-[28px_1fr] items-center gap-3">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-black w-5 h-5 md:w-6 md:h-6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 11.19 19a19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.16a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
+                    <span>+6289695971729</span>
+                  </li>
+                  <li className="grid grid-cols-[20px_1fr] md:grid-cols-[28px_1fr] items-center gap-3">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-black w-5 h-5 md:w-6 md:h-6"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm16 2l-8 5-8-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>info@meoris.erdanpee.com</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Information */}
+              <div className="pb-3 md:pb-4">
+                <h4 className="font-heading text-xl text-black">Informasi</h4>
+                <div className="mt-2 w-10 h-[2px] bg-black"></div>
+                <ul className="mt-4 space-y-3 font-body text-gray-700">
+                  <li><a href="/docs/notifikasi" className="hover:underline">Notifikasi</a></li>
+                </ul>
+              </div>
+
+              {/* My Account */}
+              <div className="pb-3 md:pb-4">
+                <h4 className="font-heading text-xl text-black">Bantuan &amp; Dukungan</h4>
+                <div className="mt-2 w-10 h-[2px] bg-black"></div>
+                <ul className="mt-4 space-y-3 font-body text-gray-700">
+                  <li><a href="/docs/pengembalian" className="hover:underline">Pengembalian</a></li>
+                  <li><a href="/docs/syarat&ketentuan" className="hover:underline">Syarat &amp; Ketentuan</a></li>
+                  <li><a href="/docs/kebijakan-privacy" className="hover:underline">Kebijakan Privasi</a></li>
+                </ul>
+              </div>
+
+              {/* Help & Support */}
+              <div className="pb-3 md:pb-4">
+                <h4 className="font-heading text-xl text-black">Akun Saya</h4>
+                <div className="mt-2 w-10 h-[2px] bg-black"></div>
+                <ul className="mt-4 space-y-3 font-body text-gray-700">
+                  <li><a href="/my-account" className="hover:underline">Detail Akun</a></li>
+                  <li><a href="#" aria-label="Buka keranjang" className="hover:underline" onClick={(e) => { e.preventDefault(); setIsCartOpen(true); }}>Keranjang</a></li>
+                  <li><a href="#" aria-label="Buka favorit" className="hover:underline" onClick={(e) => { e.preventDefault(); setIsFavOpen(true); }}>Favorit</a></li>
+                  <li><a href="/produk/pesanan" className="hover:underline">Pesanan</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+    </main>
+  );
+}
+
+
+
+
+
+

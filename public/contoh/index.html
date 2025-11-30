@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Black Space Polygon Background</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    margin: 0;
+    background: #000;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #fff;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* canvas polygon-nya */
+  #poly-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -2;
+  }
+
+  /* overlay gradasi halus biar mirip contoh */
+  .gradient-overlay {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,255,255,0.12), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.18), transparent 60%);
+    mix-blend-mode: screen;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* contoh konten di atas background */
+  .content {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .card {
+    padding: 40px 60px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    letter-spacing: 0.25em;
+  }
+
+  .card h1 {
+    font-size: 56px;
+    margin-bottom: 12px;
+  }
+
+  .card span.label {
+    font-size: 14px;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="poly-bg"></canvas>
+<div class="gradient-overlay"></div>
+
+<div class="content">
+  <div class="card">
+    <span class="label">BLACK SPACE</span>
+    <h1>POLYGON</h1>
+    <span class="label">BACKGROUNDS</span>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('poly-bg');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drawPolygons();
+  }
+
+  function drawPolygons() {
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const cols = 18;      // makin besar makin rapat
+    const rows = 10;
+    const jitter = 40;    // acak posisi titik
+
+    const points = [];
+
+    // buat grid titik yg sedikit diacak
+    for (let y = 0; y <= rows; y++) {
+      for (let x = 0; x <= cols; x++) {
+        const px = (x / cols) * w + (Math.random() - 0.5) * jitter;
+        const py = (y / rows) * h + (Math.random() - 0.5) * jitter;
+        points.push({ x: px, y: py });
+      }
+    }
+
+    // fungsi ambil index titik (x,y) di grid
+    const idx = (x, y) => y * (cols + 1) + x;
+
+    // gambar segitiga-segitiga low-poly
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const p1 = points[idx(x, y)];
+        const p2 = points[idx(x + 1, y)];
+        const p3 = points[idx(x, y + 1)];
+        const p4 = points[idx(x + 1, y + 1)];
+
+        // segitiga 1
+        drawTriangle(p1, p2, p3);
+
+        // segitiga 2
+        drawTriangle(p3, p2, p4);
+      }
+    }
+  }
+
+  function drawTriangle(a, b, c) {
+    // warna abu gelap random biar ada depth
+    const base = 10 + Math.random() * 45;   // antara 10–55
+    const light = base + Math.random() * 25;
+
+    const fill = `rgb(${base},${base},${base})`;
+    const stroke = `rgba(${light},${light},${light},0.25)`;
+
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.lineTo(c.x, c.y);
+    ctx.closePath();
+
+    ctx.fillStyle = fill;
+    ctx.fill();
+
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+</script>
+
+</body>
+</html>
